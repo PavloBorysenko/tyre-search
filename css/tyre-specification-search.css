@@ -3,6 +3,49 @@
     font-family: 'Nunito Sans', sans-serif;
 }
 
+.tyre-search-tabs {
+    display: flex;
+    margin-bottom: 0;
+    background: #fff;
+}
+
+.tab-button {
+    padding: 16px 24px;
+    border: none;
+    background: transparent;
+    color: #16191d;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+    background: #16181d;
+    color: #ffffff;
+}
+
+.tab-button.active {
+    background: #16181d;
+    color: #ffffff;
+}
+
+.tab-content {
+    padding-top: 32px;
+    background: #fff;
+}
+
+.tab-panel {
+    display: none;
+    padding: 0;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
 .tyre-spec-search-form {
     padding: 40px;
     margin-bottom: 20px;
@@ -25,8 +68,8 @@
     gap: 16px;
 }
 
-.vehicle-type-section h3,
-.tyre-specifications-section h3 {
+.breakdance .vehicle-type-section h3,
+.breakdance .tyre-specifications-section h3 {
     color: #16191d;
     font-size: 20px;
     font-weight: 600;
@@ -127,9 +170,8 @@
 
 .reset-btn,
 .search-btn {
-    padding: 12px 24px;
+    padding: 14px 32px;
     border: none;
-    border-radius: 4px;
     font-size: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -141,7 +183,7 @@
 }
 
 .search-btn {
-    background: #333;
+    background: #16181d;
     color: #fff;
 }
 
@@ -246,4 +288,172 @@
     to {
         opacity: 1;
     }
+}
+
+/* EAN SEACRH */
+.ean-search-container {
+    background: #f6f7f9;
+    padding: 40px;
+}
+
+.ean-search-content {
+    max-width: 635px;
+}
+
+.ean-search-description {
+    color: #16191d;
+    font-size: 18px;
+    line-height: 30px;
+    margin: 0 0 20px 0;
+    font-weight: 700;
+}
+
+.ean-search-form {
+    display: flex;
+    gap: 20px;
+}
+
+.ean-search-input-wrapper {
+    position: relative;
+    width: 500px;
+    max-width: 100%;
+}
+
+.ean-search-input-wrapper .search-icon {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+#ean-search-input {
+    width: 100%;
+    padding: 14px 16px 14px 32px;
+    border-bottom: 1px solid #d5d9dd;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    font-size: 16px;
+    line-height: 24px;
+    background: transparent;
+    color: #16191d;
+}
+
+#ean-search-input:focus {
+    outline: none;
+    border-color: #16191d;
+}
+
+#ean-search-input::placeholder {
+    color: #4c5967;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 700;
+}
+
+.ean-search-btn {
+    padding: 16px 32px;
+    background: #16191d;
+    color: #ffffff;
+    border: none;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.ean-search-btn:hover {
+    background: #374151;
+}
+
+/* TYRE NAME */
+#tyre-search-by-name-container {
+    background: #f6f7f9;
+    padding: 40px;
+}
+
+.tyre-search-by-name-container-inner {
+    max-width: 635px;
+}
+
+.tyre-name-search-description {
+    color: #16191d;
+    font-size: 18px;
+    line-height: 30px;
+    margin: 0 0 20px 0;
+    font-weight: 700;
+}
+
+.tyre-name-search-form {
+    display: flex;
+    gap: 20px;
+}
+
+/* .tyre-name-select {
+    width: 500px;
+    max-width: 100%;
+    padding: 14px 36px 0 0;
+    border-bottom: 1px solid #D5D9DD;
+    border-top: 0;
+    border-right:0;
+    border-left:0; 
+    font-size: 16px;
+    line-height: 24px;
+    background: transparent;
+    color: #16191D;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUgNy40OTk5MkwxMCAxMi40OTk5TDE1IDcuNDk5ODgiIHN0cm9rZT0iIzE2MTkxRCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1taXRlcmxpbWl0PSIxNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=");
+    background-repeat: no-repeat;
+    background-position: right 4px center;
+    background-size: 20px 20px;
+}
+
+.tyre-name-select:focus {
+    outline: none;
+    border-color: #16191D;
+}
+
+.tyre-name-select option {
+    padding: 8px;
+    color: #16191D;
+} */
+
+.tyre-name-search-btn {
+    padding: 16px 32px;
+    background: #16191d;
+    color: #ffffff;
+    border: none;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tyre-name-search-btn:hover {
+    background: #374151;
+}
+
+/* Select2 Customization */
+.select2-container {
+    width: 500px;
+    max-width: 100%;
+    padding: 14px 36px 0 0;
+    border-bottom: 1px solid #d5d9dd;
+    border-top: 0;
+    border-right: 0;
+    border-left: 0;
+    font-size: 16px;
+    line-height: 24px;
+    background: transparent;
+    color: #16191d;
+    cursor: pointer;
+    appearance: none;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUgNy40OTk5MkwxMCAxMi40OTk5TDE1IDcuNDk5ODgiIHN0cm9rZT0iIzE2MTkxRCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1taXRlcmxpbWl0PSIxNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=');
+    background-repeat: no-repeat;
+    background-position: right 4px center;
+    background-size: 20px 20px;
 }
