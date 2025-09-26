@@ -273,7 +273,7 @@
     opacity: 0;
     z-index: 1000;
 
-    animation: spin 0.3s linear infinite, fadeIn 0s linear 0.3s forwards;
+    animation: spin 0.3s linear infinite, fadeIn 0s linear 0.4s forwards;
 }
 
 /* вращение */

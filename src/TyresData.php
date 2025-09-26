@@ -49,8 +49,8 @@ class TyresDataHelper {
             'tyre_season'        => $this->getSeasonTaxonomySlug($tyre_id),
             'tyre_type'          => $this->getTypeTaxonomySlug($tyre_id) ?? '',
         ];
-
-        $data['eu_label'] = $this->getEuLabel($tyre_id, $index, $data);
+        $tyre_data['tyre_type'] = $data['tyre_type'] ;
+        $data['eu_label'] = $this->getEuLabel($tyre_id, $index, $tyre_data);
         
         return $data;       
     }

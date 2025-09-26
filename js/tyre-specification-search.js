@@ -138,15 +138,15 @@ jQuery(document).ready(function ($) {
 
     function performTyreNameSearch(tyreId) {
         const formData = {
-            action: 'tyre_name_search',
-            name: tyreId,
+            action: 'tyre_id_search',
+            id: tyreId,
         };
 
         $('#tyre-search-results').hide();
 
         $.ajax({
             url: tyre_spec_ajax.ajax_url,
-            type: 'POST',
+            type: 'GET',
             data: formData,
             success: function (response) {
                 if (response.success) {

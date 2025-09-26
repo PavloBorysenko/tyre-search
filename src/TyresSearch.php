@@ -125,9 +125,9 @@ class TyresSearch {
     }
     public function searchByEan($ean, $args = []): array {
 
-        if (!$this->isEan($ean)) {
-            return [];
-        }
+        //if (!$this->isEan($ean)) {
+            //return [];
+        //}
     
         $args = $this->getArgs($args);
     
@@ -148,7 +148,8 @@ class TyresSearch {
                 
                 if ($ean_match || $art_match) {
                     $result[] = $this->tyresDataHelper->getPreparedData($tyre_id, $index, $variant);
-                    break 2;
+                    return $result;
+                    //break 2;
                 }
             }
         }
