@@ -28,13 +28,16 @@ use TyreSearch\TyreShortcode as TyreShortcode;
 new TyreShortcode();
 
 
+define('TYRE_SEARCH_URL', plugin_dir_url(__FILE__));
 
 function tyre_specification_enqueue_assets() {
-    $plugin_url = plugin_dir_url(__FILE__);
+
+    wp_enqueue_style('select2-css', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css', array(), '4.1.0');
+    wp_enqueue_script('select2-js', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', 
     
-    wp_enqueue_style('tyre-specification-search-css', $plugin_url . 'css/tyre-specification-search.css', array(), '1.0.0');
+    wp_enqueue_style('tyre-specification-search-css', TYRE_SEARCH_URL . 'css/tyre-specification-search.css', array('select2-css'), '1.0.0');
     
-    wp_enqueue_script('tyre-specification-search-js', $plugin_url . 'js/tyre-specification-search.js',array('jquery'), '1.0.0', true);
+    wp_enqueue_script('tyre-specification-search-js', TYRE_SEARCH_URL . 'js/tyre-specification-search.js',array('jquery', 'select2-js'), '1.0.0', true);
     
     wp_localize_script('tyre-specification-search-js', 'tyre_spec_ajax', array(
         'ajax_url' => admin_url('admin-ajax.php')
@@ -83,7 +86,7 @@ function handle_tyre_specification_search() {
 
 
 add_action('wp_ajax_tyre_ean_search', 'handle_tyre_ean_search');
-add_action('wp_ajax_tyre_ean_search', 'handle_tyre_ean_search');
+add_action('wp_ajax_nopriv_tyre_ean_search', 'handle_tyre_ean_search');
 function handle_tyre_ean_search() {
     $ean = sanitize_text_field($_POST['ean'] ?? '');
 
@@ -109,7 +112,7 @@ function handle_tyre_ean_search() {
 
 
 add_action('wp_ajax_tyre_name_search', 'handle_tyre_name_search');
-add_action('wp_ajax_tyre_name_search', 'handle_tyre_name_search');
+add_action('wp_ajax_nopriv_tyre_name_search', 'handle_tyre_name_search');
 
 function handle_tyre_name_search() {
     $name = sanitize_text_field($_POST['name'] ?? '');
