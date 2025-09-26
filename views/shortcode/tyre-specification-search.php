@@ -1,5 +1,36 @@
 <div id="tyre-specification-search" class="tyre-spec-search-container">
-        <form id="tyre-spec-search-form" class="tyre-spec-search-form">
+
+    <div class="tyre-search-tabs">
+        <button class="tab-button active" data-tab="ean">SEARCH BY EAN/ARTICLE NO.</button>
+        <button class="tab-button" data-tab="specifications">SEARCH BY TYRE SIZE</button>
+        <button class="tab-button" data-tab="name">SEARCH BY TYRE NAME</button>
+    </div>
+
+    <div class="tab-content">
+
+        <div id="tab-ean" class="tab-panel active">
+            <div class="ean-search-container">
+                <div class="ean-search-content">
+                    <p class="ean-search-description">Enter an EAN or Article No. to view the tyre label details.<br>Only EU Regulation No. 2020/740 is supported.</p>
+                    <div class="ean-search-form">
+                        <div class="ean-search-input-wrapper">
+                            
+                            <svg class="search-icon" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18.5859 18.5834L22.3359 22.3334" stroke="#4C5967" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M20.6719 13.1667C20.6719 9.02455 17.314 5.66669 13.1719 5.66669C9.02974 5.66669 5.67188 9.02455 5.67188 13.1667C5.67188 17.3088 9.02974 20.6667 13.1719 20.6667C17.314 20.6667 20.6719 17.3088 20.6719 13.1667Z" stroke="#4C5967" stroke-width="1.5" stroke-linejoin="round"/>
+                            </svg>
+
+                            <input type="text" id="ean-search-input" placeholder="Search by EAN or Article No.">
+                        </div>
+                        <button type="button" id="search-by-ean" class="ean-search-btn">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="tab-specifications" class="tab-panel">
+            <form id="tyre-spec-search-form" class="tyre-spec-search-form">
 
             <div class="vehicle-type-section">
                 <h3><?php echo esc_html('Choose vehicle type'); ?></h3>
@@ -88,24 +119,30 @@
                     <button type="submit" id="search-tyres" class="search-btn"><?php echo esc_html('Search'); ?></button>
                 </div>
             </div>
-        </form>
+            </form>
+        </div>
 
-        <div id="tyre-search-by-name-container">
-            <div class="tyre-search-by-name-container-inner">
-                <select id="tyre-search-by-name-select">
-                    <option value=""><?php echo esc_html($translated_strings['Select Tyre Name']); ?></option>
-                    <?php
-                        foreach ($tyre_names as $id => $tyre) {
-                            echo '<option value="' . esc_attr($id) . '">' . esc_html($tyre) . '</option>';
-                        }
-                    ?>
-                </select>
-                <button type="button" id="search-tyres-by-name"><?php echo esc_html('Search'); ?></button>
+        <div id="tab-name" class="tab-panel">
+            <div id="tyre-search-by-name-container">
+                <div class="tyre-search-by-name-container-inner">
+                    <p class="tyre-name-search-description">Search by tyre name to view its EU label ratings</p>
+                    <div class="tyre-name-search-form">
+                        <select id="tyre-search-by-name-select" class="tyre-name-select">
+                            <option value=""><?php echo esc_html($translated_strings['Select Tyre Name']); ?></option>
+                            <?php
+                                foreach ($tyre_names as $id => $tyre) {
+                                    echo '<option value="' . esc_attr($id) . '">' . esc_html($tyre) . '</option>';
+                                }
+                            ?>
+                        </select>
+                        <button type="button" id="search-tyres-by-name" class="tyre-name-search-btn"><?php echo esc_html('Search'); ?></button>
+                    </div>
+                </div>
             </div>
-        </div>    
- 
+        </div>
+    </div>
 
-        <div id="tyre-search-results" class="tyre-search-results" style="display: none;">
+    <div id="tyre-search-results" class="tyre-search-results" style="display: none;">
             <h3><?php echo esc_html('Search Results'); ?></h3>
             <div class="results-table-container">
                 <table class="tyre-results-table">
