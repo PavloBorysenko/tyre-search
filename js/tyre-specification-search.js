@@ -2,6 +2,25 @@ jQuery(document).ready(function ($) {
     let all_tyres = [];
     checkSelectState();
 
+    // Initialize Select2 for tyre name search
+    $('#tyre-search-by-name-select').select2({
+        placeholder: 'Select Tyre Name',
+        allowClear: true,
+        width: '100%',
+    });
+
+    $('.tab-button').on('click', function () {
+        const tabId = $(this).data('tab');
+
+        $('.tab-button').removeClass('active');
+        $('.tab-panel').removeClass('active');
+
+        $(this).addClass('active');
+        $('#tab-' + tabId).addClass('active');
+
+        $('#tyre-search-results').hide();
+    });
+
     $('#tyre-spec-search-form').on('submit', function (e) {
         e.preventDefault();
         displaySearchResults(all_tyres);
@@ -16,6 +35,20 @@ jQuery(document).ready(function ($) {
     // why do you need second search request?
     $('#search-tyres').on('click', function () {
         //performTyreSearch();
+    });
+
+    $('#search-by-ean').on('click', function () {
+        const eanValue = $('#ean-search-input').val().trim();
+        if (eanValue) {
+            performEanSearch(eanValue);
+        }
+    });
+
+    $('#search-tyres-by-name').on('click', function () {
+        const selectedTyreId = $('#tyre-search-by-name-select').val();
+        if (selectedTyreId) {
+            performTyreNameSearch(selectedTyreId);
+        }
     });
 
     // Init search on change
@@ -69,6 +102,70 @@ jQuery(document).ready(function ($) {
                 $('#tyre-spec-search-form').removeClass(
                     'tyre-search-form-loading'
                 );
+            },
+        });
+    }
+
+    function performEanSearch(ean) {
+        const formData = {
+            action: 'tyre_ean_search',
+            ean: ean,
+        };
+
+        $('#tyre-search-results').hide();
+
+        $.ajax({
+            url: tyre_spec_ajax.ajax_url,
+            type: 'POST',
+            data: formData,
+            success: function (response) {
+                if (response.success) {
+                    all_tyres = response.data;
+                    displaySearchResults(all_tyres);
+                } else {
+                    alert(
+                        'Error: ' + (response.data || 'Unknown error occurred')
+                    );
+                }
+                $('#search-by-ean').prop('disabled', false).text('Search');
+            },
+            error: function (error) {
+                alert('An error occurred while searching for tyres.');
+                $('#search-by-ean').prop('disabled', false).text('Search');
+            },
+        });
+    }
+
+    function performTyreNameSearch(tyreId) {
+        const formData = {
+            action: 'tyre_name_search',
+            name: tyreId,
+        };
+
+        $('#tyre-search-results').hide();
+
+        $.ajax({
+            url: tyre_spec_ajax.ajax_url,
+            type: 'POST',
+            data: formData,
+            success: function (response) {
+                if (response.success) {
+                    all_tyres = response.data;
+                    displaySearchResults(all_tyres);
+                } else {
+                    alert(
+                        'Error: ' + (response.data || 'Unknown error occurred')
+                    );
+                }
+                $('#search-tyres-by-name')
+                    .prop('disabled', false)
+                    .text('Search');
+            },
+            error: function (error) {
+                alert('An error occurred while searching for tyres.');
+                $('#search-tyres-by-name')
+                    .prop('disabled', false)
+                    .text('Search');
             },
         });
     }
