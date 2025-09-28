@@ -135,8 +135,18 @@
                                 }
                             ?>
                         </select>
+
                         <button type="button" id="search-tyres-by-name" class="tyre-name-search-btn"><?php echo esc_html('Search'); ?></button>
                     </div>
+                    <!--Added only for test -->
+                    <select id="tyre-search-by-name-select-tom" placeholder="Select Tyre Name..." autocomplete="off">
+			                <option value="">Select Tyre Name...</option>
+                            <?php
+                                foreach ($tyre_names as $id => $tyre) {
+                                    echo '<option value="' . esc_attr($id) . '">' . esc_html($tyre) . '</option>';
+                                }
+                            ?>
+                    </select>
                 </div>
             </div>
         </div>

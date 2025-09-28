@@ -8,6 +8,14 @@ jQuery(document).ready(function ($) {
         allowClear: true,
         width: '100%',
     });
+    //added only for test
+    new TomSelect('#tyre-search-by-name-select-tom', {
+        create: true,
+        sortField: {
+            field: 'text',
+            direction: 'asc',
+        },
+    });
 
     $('.tab-button').on('click', function () {
         const tabId = $(this).data('tab');
