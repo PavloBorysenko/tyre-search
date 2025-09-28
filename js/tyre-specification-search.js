@@ -174,51 +174,16 @@ jQuery(document).ready(function ($) {
         var tbody = $('#tyre-results-tbody');
         tbody.empty();
         $('#tyre-search-loading').show();
+
         if (data.tyres && data.tyres.length > 0) {
-            data.tyres.forEach(function (tyre) {
-                var row =
-                    '<tr>' +
-                    '<td>' +
-                    (tyre.tyre_name || '') +
-                    '</td>' +
-                    '<td>' +
-                    (tyre.inch || '') +
-                    '</td>' +
-                    '<td>' +
-                    (tyre.size || '') +
-                    '</td>' +
-                    '<td>' +
-                    (tyre.note || '') +
-                    '</td>' +
-                    '<td>' +
-                    (tyre.art || '') +
-                    '</td>' +
-                    '<td class="fuel-icon">' +
-                    (tyre.fuel_efficiency || '') +
-                    '</td>' +
-                    '<td class="wet-icon">' +
-                    (tyre.wet_grip || '') +
-                    '</td>' +
-                    '<td class="noise-icon">' +
-                    (tyre.noise || '') +
-                    '</td>' +
-                    '<td class="snow-icon">' +
-                    (tyre.snow_grip || '') +
-                    '</td>' +
-                    '<td class="ice_grip-icon">' +
-                    (tyre.ice_grip || '') +
-                    '</td>' +
-                    '<td>' +
-                    (tyre.eu_label || '') +
-                    '</td>' +
-                    '</tr>';
-                tbody.append(row);
-            });
+            const pagination = new TyrePagination(data.tyres, tbody, 10);
+            pagination.init();
         } else {
             tbody.append(
                 '<tr><td colspan="11" style="text-align: center; padding: 20px;">No tyres found matching your criteria.</td></tr>'
             );
         }
+
         $('#tyre-search-loading').hide();
         $('#tyre-search-results').show();
     }
@@ -354,5 +319,216 @@ jQuery(document).ready(function ($) {
                 $option.hide();
             }
         });
+    }
+
+    // Pagination Class
+    class TyrePagination {
+        constructor(tyres, tbody, itemsPerPage = 10) {
+            this.tyres = tyres;
+            this.tbody = tbody;
+            this.itemsPerPage = itemsPerPage;
+            this.currentPage = 1;
+            this.totalPages = Math.ceil(tyres.length / itemsPerPage);
+        }
+
+        init() {
+            this.renderPage(1);
+            this.bindEvents();
+        }
+
+        renderPage(page) {
+            this.currentPage = page;
+            this.clearResults();
+            this.renderTyres();
+            this.renderPagination();
+        }
+
+        clearResults() {
+            this.tbody.find('.tyre-result-row, .pagination-row').remove();
+        }
+
+        renderTyres() {
+            const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+            const endIndex = Math.min(
+                startIndex + this.itemsPerPage,
+                this.tyres.length
+            );
+            const currentItems = this.tyres.slice(startIndex, endIndex);
+
+            currentItems.forEach((tyre) => {
+                const row = this.createTyreRow(tyre);
+                this.tbody.append(row);
+            });
+        }
+
+        createTyreRow(tyre) {
+            return `
+                <tr class="tyre-result-row">
+                    <td>${tyre.tyre_name || ''}</td>
+                    <td>${tyre.inch || ''}</td>
+                    <td>${tyre.size || ''}</td>
+                    <td>${tyre.note || ''}</td>
+                    <td>${tyre.art || ''}</td>
+                    <td class="fuel-icon">${tyre.fuel_efficiency || ''}</td>
+                    <td class="wet-icon">${tyre.wet_grip || ''}</td>
+                    <td class="noise-icon">${tyre.noise || ''}</td>
+                    <td class="snow-icon">${tyre.snow_grip || ''}</td>
+                    <td class="ice_grip-icon">${tyre.ice_grip || ''}</td>
+                    <td>${tyre.eu_label || ''}</td>
+                </tr>
+            `;
+        }
+
+        renderPagination() {
+            if (this.totalPages <= 1) return;
+
+            const template = document.getElementById('pagination-template');
+            const clone = template.content.cloneNode(true);
+
+            // Update info
+            this.updatePaginationInfo(clone);
+
+            // Update prev/next buttons
+            this.updateNavigationButtons(clone);
+
+            // Update page numbers
+            this.updatePageNumbers(clone);
+
+            this.tbody.append(clone);
+        }
+
+        updatePaginationInfo(clone) {
+            const showingFrom = (this.currentPage - 1) * this.itemsPerPage + 1;
+            const showingTo = Math.min(
+                this.currentPage * this.itemsPerPage,
+                this.tyres.length
+            );
+
+            clone.querySelector('.from').textContent = showingFrom;
+            clone.querySelector('.to').textContent = showingTo;
+            clone.querySelector('.total').textContent = this.tyres.length;
+        }
+
+        updateNavigationButtons(clone) {
+            const prevBtn = clone.querySelector('.pagination-prev');
+            const nextBtn = clone.querySelector('.pagination-next');
+
+            prevBtn.disabled = this.currentPage <= 1;
+            prevBtn.dataset.page = this.currentPage - 1;
+
+            nextBtn.disabled = this.currentPage >= this.totalPages;
+            nextBtn.dataset.page = this.currentPage + 1;
+        }
+
+        updatePageNumbers(clone) {
+            const numbersContainer = clone.querySelector('.pagination-numbers');
+            const pageNumbers = this.getPageNumbers();
+
+            pageNumbers.forEach((pageInfo) => {
+                if (pageInfo.isEllipsis) {
+                    const ellipsisTemplate = document.getElementById(
+                        'pagination-ellipsis-template'
+                    );
+                    const ellipsisClone =
+                        ellipsisTemplate.content.cloneNode(true);
+                    numbersContainer.appendChild(ellipsisClone);
+                } else {
+                    const pageTemplate = document.getElementById(
+                        'page-number-template'
+                    );
+                    const pageClone = pageTemplate.content.cloneNode(true);
+
+                    const button = pageClone.querySelector('.pagination-page');
+                    const numberSpan = pageClone.querySelector('.page-number');
+
+                    button.dataset.page = pageInfo.page;
+                    numberSpan.textContent = pageInfo.page;
+
+                    if (pageInfo.page === this.currentPage) {
+                        button.classList.add('active');
+                    }
+
+                    numbersContainer.appendChild(pageClone);
+                }
+            });
+        }
+
+        getPageNumbers() {
+            const maxVisible = 3;
+            const pages = [];
+
+            if (this.totalPages <= maxVisible) {
+                for (let i = 1; i <= this.totalPages; i++) {
+                    pages.push({ page: i, isEllipsis: false });
+                }
+            } else {
+                if (this.currentPage <= 2) {
+                    pages.push({ page: 1, isEllipsis: false });
+                    pages.push({ page: 2, isEllipsis: false });
+                    pages.push({ page: 3, isEllipsis: false });
+                    if (this.totalPages > 4) {
+                        pages.push({ isEllipsis: true });
+                    }
+                    if (this.totalPages > 3) {
+                        pages.push({
+                            page: this.totalPages,
+                            isEllipsis: false,
+                        });
+                    }
+                } else if (this.currentPage >= this.totalPages - 1) {
+                    pages.push({ page: 1, isEllipsis: false });
+                    if (this.totalPages > 4) {
+                        pages.push({ isEllipsis: true });
+                    }
+                    pages.push({
+                        page: this.totalPages - 2,
+                        isEllipsis: false,
+                    });
+                    pages.push({
+                        page: this.totalPages - 1,
+                        isEllipsis: false,
+                    });
+                    pages.push({ page: this.totalPages, isEllipsis: false });
+                } else {
+                    pages.push({ page: 1, isEllipsis: false });
+                    pages.push({ isEllipsis: true });
+                    pages.push({
+                        page: this.currentPage - 1,
+                        isEllipsis: false,
+                    });
+                    pages.push({ page: this.currentPage, isEllipsis: false });
+                    pages.push({
+                        page: this.currentPage + 1,
+                        isEllipsis: false,
+                    });
+                    pages.push({ isEllipsis: true });
+                    pages.push({ page: this.totalPages, isEllipsis: false });
+                }
+            }
+
+            return pages;
+        }
+
+        bindEvents() {
+            this.tbody.on('click', '.pagination-btn', (e) => {
+                e.preventDefault();
+                const button = $(e.target).closest('.pagination-btn');
+
+                if (button.prop('disabled') || button.hasClass('active'))
+                    return;
+
+                const page = parseInt(button.data('page'));
+                const action = button.data('action');
+
+                let newPage = page;
+                if (action === 'prev') newPage = this.currentPage - 1;
+                if (action === 'next') newPage = this.currentPage + 1;
+
+                if (newPage && newPage >= 1 && newPage <= this.totalPages) {
+                    this.renderPage(newPage);
+                    scrollToResults();
+                }
+            });
+        }
     }
 });

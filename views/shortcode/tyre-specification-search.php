@@ -446,4 +446,40 @@
             <div class="loading-spinner"></div>
             <p><?php echo esc_html('Searching for tyres...'); ?></p>
         </div>
+        </div>
+
+        <!-- Pagination Template (hidden) -->
+        <template id="pagination-template">
+            <tr class="pagination-row">
+                <td colspan="11">
+                    <div class="pagination-info" style="display: none;">
+                        <span class="pagination-showing">Showing <span class="from">1</span>-<span class="to">10</span> of <span class="total">100</span> results</span>
+                    </div>
+                    <div class="pagination-controls">
+                        <button class="pagination-btn pagination-prev" data-action="prev">
+                            <span class="pagination-prev-text">Previous</span>
+                        </button>
+                        <div class="pagination-numbers">
+                            <!-- Page numbers will be inserted here -->
+                        </div>
+                        <button class="pagination-btn pagination-next" data-action="next">
+                            <span class="pagination-next-text">Next</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </template>
+
+        <!-- Page Number Button Template -->
+        <template id="page-number-template">
+            <button class="pagination-btn pagination-page" data-page="">
+                <span class="page-number"></span>
+            </button>
+        </template>
+
+        <!-- Ellipsis Template -->
+        <template id="pagination-ellipsis-template">
+            <span class="pagination-ellipsis">...</span>
+        </template>
+
     </div>

@@ -65,7 +65,7 @@ class TyresDataHelper {
             return pdf_tire_generator_get_link_html(
                 $tyre_id, 
                 $index, 
-                $this->translateHelper->getTranslatepressTranslation('LINK')
+                $this->translateHelper->getTranslatepressTranslation('CREATE')
             );
         } else {
             return "Please install and activate PDF Tire Generator plugin";
