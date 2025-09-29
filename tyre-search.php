@@ -12,17 +12,16 @@
 define('TYRE_SEARCH_PATH', plugin_dir_path(__FILE__));
 define('TYRE_SEARCH_URL', plugin_dir_url(__FILE__));
 
-require_once plugin_dir_path(__FILE__) . 'src/Cache/CacheInterface.php';
-require_once plugin_dir_path(__FILE__) . 'src/Cache/TransientCache.php';
-require_once plugin_dir_path(__FILE__) . 'src/TyresSearch.php';
-require_once plugin_dir_path(__FILE__) . 'src/TranslateHelper.php';
-require_once plugin_dir_path(__FILE__) . 'src/TyresData.php';
-require_once plugin_dir_path(__FILE__) . 'src/TyreShortcode.php';
+require_once TYRE_SEARCH_PATH . 'src/Cache/CacheInterface.php';
+require_once TYRE_SEARCH_PATH . 'src/Cache/TransientCache.php';
+require_once TYRE_SEARCH_PATH . 'src/TyresSearch.php';
+require_once TYRE_SEARCH_PATH . 'src/TranslateHelper.php';
+require_once TYRE_SEARCH_PATH . 'src/TyresData.php';
+require_once TYRE_SEARCH_PATH . 'src/TyreShortcode.php';
 
 use TyreSearch\Cache\TransientCache as TyreCache;
 use TyreSearch\TyresSearch as TyresSearch;
 use TyreSearch\TranslateHelper as TranslateHelper;
-use TyreSearch\TyresDataHelper as TyresDataHelper;
 use TyreSearch\TyreShortcode as TyreShortcode;
 
 new TyreShortcode();
@@ -100,7 +99,8 @@ function handle_tyre_ean_search() {
     $no_results = $translate_helper->getTranslatepressTranslation('No matches found. Try a different EAN number.');
 
     $cache = new TyreCache();
-    $cached_data = $cache->get('ean_' . $ean);
+    $cache_key = tyre_prepare_cache_key('ean_' . $ean);
+    $cached_data = $cache->get($cache_key);
     if ($cached_data !== false) {
         $cached_data = tyre_prepare_response($cached_data, $no_results);
         wp_send_json_success($cached_data);
@@ -110,40 +110,13 @@ function handle_tyre_ean_search() {
     $tyres_search = new TyresSearch($translate_helper);
     $result = $tyres_search->searchByEan($ean);
 
-    $cache->set('ean_' . $ean, $result, DAY_IN_SECONDS);
+    $cache->set($cache_key, $result, DAY_IN_SECONDS);
     $result = tyre_prepare_response($result, $no_results);
     wp_send_json_success($result);
     return;
 }
 
 
-add_action('wp_ajax_tyre_name_search', 'handle_tyre_name_search');
-add_action('wp_ajax_nopriv_tyre_name_search', 'handle_tyre_name_search');
-
-function handle_tyre_name_search() {
-    $name = sanitize_text_field($_POST['name'] ?? '');
-
-    $translate_helper = new TranslateHelper();
-
-    $cache = new TyreCache();
-    $cached_data = $cache->get('name_' . $name);
-    $no_results = $translate_helper->getTranslatepressTranslation('No matches found. Try a different search name.');
-    if ($cached_data !== false) {
-        $cached_data = tyre_prepare_response($cached_data, $no_results);
-        wp_send_json_success($cached_data);
-        return;
-    }
-
-
-    $tyres_search = new TyresSearch($translate_helper);
-    $result = $tyres_search->searchByNameSizeEan($name);
-
-    $cache->set('name_' . $name, $result, DAY_IN_SECONDS);
-
-    $result = tyre_prepare_response($result, $no_results);
-    wp_send_json_success( $result);
-    return;
-}
 
 add_action('wp_ajax_tyre_id_search', 'handle_tyre_id_search');
 add_action('wp_ajax_nopriv_tyre_id_search', 'handle_tyre_id_search');
@@ -153,7 +126,8 @@ function handle_tyre_id_search() {
     $no_results = $translate_helper->getTranslatepressTranslation('No matches found. Try a different ID.');
 
     $cache = new TyreCache();
-    $cached_data = $cache->get('id_' . $id);
+    $cache_key = tyre_prepare_cache_key('id_' . $id);
+    $cached_data = $cache->get($cache_key);
     if ($cached_data !== false) {
         $cached_data = tyre_prepare_response($cached_data, $no_results);
         wp_send_json_success($cached_data);
@@ -164,7 +138,7 @@ function handle_tyre_id_search() {
     $tyres_search = new TyresSearch($translate_helper);
     $result = $tyres_search->searchById($id);
 
-    $cache->set('id_' . $id, $result, DAY_IN_SECONDS);
+    $cache->set($cache_key, $result, DAY_IN_SECONDS);
 
     $result = tyre_prepare_response($result, $no_results);
     wp_send_json_success($result);
@@ -179,6 +153,16 @@ function tyre_prepare_response($result, $text) {
         $response['no_results'] =  $text;
     }
     return $response;
+}
+
+// Prepare cache key for cache. 
+// This is necessary to create a correct cache and display wheels only for specific regions.
+function tyre_prepare_cache_key($key) {
+    if (function_exists('yokohama_get_current_market_term')) {
+        $current_market_term = yokohama_get_current_market_term();
+        $key .= '_' . $current_market_term;
+    }
+    return $key;
 }
 
 // Invalidate cache when tyres post is saved/updated

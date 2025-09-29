@@ -4,7 +4,7 @@ namespace TyreSearch;
 
 use TyreSearch\TranslateHelper;
 
-class TyresDataHelper {
+class TyresData {
     private $translateHelper = null;
     private $seasonCache = [];
     private $typeCache = [];

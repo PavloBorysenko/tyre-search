@@ -3,7 +3,7 @@
 namespace TyreSearch;
 
 use TyreSearch\TranslateHelper;
-use TyreSearch\TyresDataHelper;
+use TyreSearch\TyresData;
 
 class TyresSearch {
 
@@ -12,7 +12,7 @@ class TyresSearch {
 
     public function __construct( TranslateHelper $translateHelper ) {
         $this->translateHelper = $translateHelper;
-        $this->tyresDataHelper = new TyresDataHelper($translateHelper);
+        $this->tyresDataHelper = new TyresData($translateHelper);
     }
 
     public function searchById($tyre_id) {
