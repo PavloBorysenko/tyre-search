@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Tyre Search
  * Description: Tyre Search plugin
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: Na-Gora&totoroko
  * Author URI: #
  * License: GPL-2.0+
@@ -24,9 +24,11 @@ use TyreSearch\TyresSearch as TyresSearch;
 use TyreSearch\TranslateHelper as TranslateHelper;
 use TyreSearch\TyreShortcode as TyreShortcode;
 
-new TyreShortcode();
 
-
+// Initialize Tyre Shortcode
+add_action('init', function() {
+    new TyreShortcode(new TranslateHelper());
+});
 
 function tyre_specification_enqueue_assets() {
 
@@ -100,7 +102,7 @@ function handle_tyre_ean_search() {
     $ean = sanitize_text_field($_POST['ean'] ?? '');
 
     $translate_helper = new TranslateHelper();
-    $no_results = $translate_helper->getTranslatepressTranslation('No matches found. Try a different EAN number.');
+    $no_results = $translate_helper->getTranslatepressTranslation('No matches found. Try a different search term.');
 
     $cache = new TyreCache();
     $cache_key = tyre_prepare_cache_key('ean_' . $ean);
@@ -127,7 +129,7 @@ add_action('wp_ajax_nopriv_tyre_id_search', 'handle_tyre_id_search');
 function handle_tyre_id_search() {
     $id = (int)$_GET['id'] ?? 0;
     $translate_helper = new TranslateHelper();
-    $no_results = $translate_helper->getTranslatepressTranslation('No matches found. Try a different ID.');
+    $no_results = $translate_helper->getTranslatepressTranslation('No matches found. Try a different tire name.');
 
     $cache = new TyreCache();
     $cache_key = tyre_prepare_cache_key('id_' . $id);
