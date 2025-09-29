@@ -147,8 +147,10 @@ class TyresSearch {
                 $art_match = ($variant['sales_art'] ?? '') == $ean;
                 
                 if ($ean_match || $art_match) {
-                    $result[] = $this->tyresDataHelper->getPreparedData($tyre_id, $index, $variant);
-                    return $result;
+                    $result = $this->tyresDataHelper->getPreparedData($tyre_id, $index, $variant);
+                    $result['tyre_id'] = $tyre_id;
+                    $result['tyre_variant_index'] = $index;
+                    return [$result];
                     //break 2;
                 }
             }

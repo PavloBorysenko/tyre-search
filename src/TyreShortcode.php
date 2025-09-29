@@ -39,6 +39,7 @@ class TyreShortcode {
             'Select Aspect Ratio' => $this->translateHelper->getTranslatepressTranslation('Select Aspect Ratio'),
             'Select Rim Diameter' => $this->translateHelper->getTranslatepressTranslation('Select Rim Diameter'),
             'Select Load Speed Index' => $this->translateHelper->getTranslatepressTranslation('Select Load Speed Index'),
+            'No search results.' => $this->translateHelper->getTranslatepressTranslation('No search results.'),
             'Select Tyre Name' => $this->translateHelper->getTranslatepressTranslation('Select Tyre Name'),
         ];
         ob_start();

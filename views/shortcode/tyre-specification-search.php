@@ -21,9 +21,15 @@
                             </svg>
 
                             <input type="text" id="ean-search-input" placeholder="Search by EAN or Article No.">
+                            <svg class="clear-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                                <path d="M15 5L5 15M5 5L15 15" stroke="#4C5967" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
                         </div>
                         <button type="button" id="search-by-ean" class="ean-search-btn">Search</button>
                     </div>
+                </div>
+                <div class="ean-search-ean-no-results" style="display: none;">
+                    <p class="ean-search-ean-no-results-text">No matches found. Try a different search term.</p>
                 </div>
             </div>
         </div>
@@ -131,8 +137,12 @@
                     <p class="tyre-name-search-description">Search by tyre name to view its EU label ratings</p>
                     <div class="tyre-name-search-form">
 
-                        <select id="tyre-search-by-name-select" class="tyre-name-select" placeholder="Select Tyre Name..." autocomplete="off">
-                                <option value="">Select Tyre Name...</option>
+                        <select id="tyre-search-by-name-select" 
+                                class="tyre-name-select" 
+                                placeholder="<?php echo esc_html($translated_strings['Select Tyre Name']); ?>"
+                                data-no-results="<?php echo esc_html($translated_strings['No search results.']); ?>"
+                                autocomplete="off">
+                                <option value=""><?php echo esc_html($translated_strings['Select Tyre Name']); ?></option>
                                 <?php
                                     foreach ($tyre_names as $id => $tyre) {
                                         echo '<option value="' . esc_attr($id) . '">' . esc_html($tyre) . '</option>';

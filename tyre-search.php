@@ -116,6 +116,15 @@ function handle_tyre_ean_search() {
     $tyres_search = new TyresSearch($translate_helper);
     $result = $tyres_search->searchByEan($ean);
 
+    if (isset($result[0]) && isset($result[0]['tyre_id']) && isset($result[0]['tyre_variant_index'])) {
+        if (function_exists('pdf_tire_generator_handle')) {
+            $result[0]['pdf_url'] = pdf_tire_generator_handle(
+                $result[0]['tyre_id'], 
+                $result[0]['tyre_variant_index']
+            );
+        }
+    }
+
     $cache->set($cache_key, $result, DAY_IN_SECONDS);
     $result = tyre_prepare_response($result, $no_results);
     wp_send_json_success($result);

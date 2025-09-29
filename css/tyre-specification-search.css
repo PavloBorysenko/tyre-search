@@ -747,3 +747,23 @@ body.modal-open {
         gap: 12px;
     }
 }
+
+/* Clear icon */
+.ean-search-input-wrapper .clear-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 2;
+    transition: opacity 0.2s ease;
+}
+
+.ean-search-input-wrapper .clear-icon:hover {
+    opacity: 0.7;
+}
+
+/* Adjust input padding to make room for clear icon */
+#ean-search-input {
+    padding: 14px 50px 14px 32px; /* increased right padding */
+}

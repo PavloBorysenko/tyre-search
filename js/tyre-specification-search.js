@@ -10,6 +10,15 @@ jQuery(document).ready(function ($) {
             field: 'text',
             direction: 'asc',
         },
+        render: {
+            no_results: function (data, escape) {
+                const select = document.querySelector(
+                    '#tyre-search-by-name-select'
+                );
+                const noResults = select.dataset.noResults;
+                return '<div class="no-results">' + noResults + '</div>';
+            },
+        },
     });
 
     $('.tab-button').on('click', function () {
@@ -52,6 +61,25 @@ jQuery(document).ready(function ($) {
         if (selectedTyreId) {
             performTyreNameSearch(selectedTyreId);
         }
+    });
+
+    // EAN input clear functionality
+    $('#ean-search-input').on('input', function () {
+        const clearIcon = $('.clear-icon');
+        if ($(this).val().length > 0) {
+            clearIcon.show();
+        } else {
+            clearIcon.hide();
+        }
+    });
+
+    // Clear button click handler
+    $('.clear-icon').on('click', function () {
+        $('#ean-search-input').val('').trigger('input').focus();
+        $(this).hide();
+        // Hide any previous search results
+        $('#tyre-search-results').hide();
+        $('.ean-search-ean-no-results').hide();
     });
 
     // Init search on change
@@ -124,6 +152,28 @@ jQuery(document).ready(function ($) {
             success: function (response) {
                 if (response.success) {
                     all_tyres = response.data;
+                    // Open PDF in new tab if function exists
+                    if (
+                        typeof pdf_tire_generator_open_in_new_tab === 'function'
+                    ) {
+                        const noResults = document.querySelector(
+                            '.ean-search-ean-no-results'
+                        );
+                        noResults.style.display = 'none';
+                        if (
+                            all_tyres.tyres &&
+                            all_tyres.tyres.length > 0 &&
+                            all_tyres.tyres[0].hasOwnProperty('pdf_url')
+                        ) {
+                            pdf_tire_generator_open_in_new_tab(
+                                all_tyres.tyres[0]['pdf_url']
+                            );
+                        }
+                        if (all_tyres.no_results) {
+                            noResults.style.display = 'block';
+                        }
+                        return;
+                    }
                     displaySearchResults(all_tyres);
                 } else {
                     alert(
@@ -267,7 +317,6 @@ jQuery(document).ready(function ($) {
         }
     }
     function recountFiltersItems(data) {
-        console.log(data);
         if ($('.vehicle-type-option input:checked').length === 0) {
             let checkboxes = $('.vehicle-type-option input');
             hideCheckBoxFilters(data, checkboxes, 'tyre_type');
