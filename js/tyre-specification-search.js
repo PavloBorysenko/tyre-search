@@ -296,6 +296,11 @@ jQuery(document).ready(function ($) {
             if (select.val() === '') {
                 disabled = true;
             }
+            if (select.val() !== '') {
+                $(select).parent('.spec-dropdown').find('label').show();
+            } else {
+                $(select).parent('.spec-dropdown').find('label').hide();
+            }
         });
     }
     function scrollToResults() {

@@ -767,3 +767,23 @@ body.modal-open {
 #ean-search-input {
     padding: 14px 50px 14px 32px; /* increased right padding */
 }
+
+/* Dropdown */
+#tyre-spec-search-form .spec-dropdown select {
+    border: none;
+    outline: none;
+    box-shadow: none;
+    background: none;
+    border-radius: 0;
+    border-bottom: 2px solid #ddd;
+}
+#tyre-spec-search-form .spec-dropdown label {
+    display: none;
+    position: absolute;
+    margin: 0px;
+    bottom: 100%;
+    font-size: 12px;
+}
+#tyre-spec-search-form .spec-dropdown {
+    position: relative;
+}
