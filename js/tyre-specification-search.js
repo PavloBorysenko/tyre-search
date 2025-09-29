@@ -2,10 +2,9 @@ jQuery(document).ready(function ($) {
     let all_tyres = [];
     checkSelectState();
 
-    // Initialize Select2 for tyre name search
+    initTyreSizeModal();
 
-    //added only for test
-    new TomSelect('#tyre-search-by-name-select-tom', {
+    new TomSelect('#tyre-search-by-name-select', {
         create: true,
         sortField: {
             field: 'text',
@@ -533,6 +532,49 @@ jQuery(document).ready(function ($) {
                     scrollToResults();
                 }
             });
+        }
+    }
+
+    // TYRE SIZE MODAL
+    function initTyreSizeModal() {
+        const modal = $('#tyre-size-modal');
+        const closeBtn = $('.modal-close');
+        const overlay = $('.modal-overlay');
+
+        $('.info-icon').on('click', function (e) {
+            e.preventDefault();
+            openModal();
+        });
+
+        closeBtn.on('click', function (e) {
+            e.preventDefault();
+            closeModal();
+        });
+
+        overlay.on('click', function (e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        $(document).on('keydown', function (e) {
+            if (e.key === 'Escape' && modal.hasClass('active')) {
+                closeModal();
+            }
+        });
+
+        function openModal() {
+            modal.addClass('active');
+            $('body').addClass('modal-open');
+
+            $('body').css('overflow', 'hidden');
+        }
+
+        function closeModal() {
+            modal.removeClass('active');
+            $('body').removeClass('modal-open');
+
+            $('body').css('overflow', '');
         }
     }
 });
