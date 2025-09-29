@@ -537,7 +537,7 @@
 
 @media (max-width: 768px) {
     .pagination-controls {
-        flex-direction: column;
+        /* flex-direction: column; */
         gap: 10px;
     }
 
@@ -557,4 +557,8 @@
         font-size: 18px;
         font-weight: bold;
     }
+}
+
+.ts-dropdown {
+    z-index: 99;
 }

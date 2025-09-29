@@ -10,7 +10,8 @@ class TyreShortcode {
     public $tyreCache = null;
     public $translateHelper = null;
     public function __construct() {
-        $this->tyreCache = new TyreCache();
+        // Add translation for Tyre Search
+      $this->tyreCache = new TyreCache();
         $this->translateHelper = new TranslateHelper();
         add_action('init', array($this, 'init'));
     }

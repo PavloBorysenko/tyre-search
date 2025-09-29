@@ -27,22 +27,26 @@ use TyreSearch\TyreShortcode as TyreShortcode;
 new TyreShortcode();
 
 
-define('TYRE_SEARCH_PLUGIN_URL', plugin_dir_url(__FILE__));
 
 function tyre_specification_enqueue_assets() {
 
-    // This is a temporary solution for testing. Afterwards, be sure to include styles and JS within the project.
-    wp_enqueue_style('select2-css', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css', array(), '4.1.0');
-    wp_enqueue_script('select2-js', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', array('jquery'), '4.1.0', true);
+
+    wp_enqueue_style('tom-select-css', 
+    TYRE_SEARCH_URL . 'css/tom-select/tom-select.default.min.css', 
+    array(), '2.4.3');
+    wp_enqueue_script('tom-select-js', 
+    TYRE_SEARCH_URL . 'js/tom-select/tom-select.complete.min.js', 
+    array(), '2.4.3', true);
+
+
+
+    wp_enqueue_style('tyre-specification-search-css', 
+    TYRE_SEARCH_URL . 'css/tyre-specification-search.css', 
+    array('tom-select-css'), '1.0.0');
     
-    wp_enqueue_style('tom-select-css', 'https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css', array(), '2.4.3');
-    wp_enqueue_script('tom-select-js', 'https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js', array(), '2.4.3', true);
-
-
-
-    wp_enqueue_style('tyre-specification-search-css', TYRE_SEARCH_PLUGIN_URL . 'css/tyre-specification-search.css', array('select2-css'), '1.0.0');
-    
-    wp_enqueue_script('tyre-specification-search-js', TYRE_SEARCH_PLUGIN_URL . 'js/tyre-specification-search.js', array('jquery', 'select2-js'), '1.0.0', true);
+    wp_enqueue_script('tyre-specification-search-js', 
+    TYRE_SEARCH_URL . 'js/tyre-specification-search.js', 
+    array('jquery', 'tom-select-js'), '1.0.0', true);
     
     wp_localize_script('tyre-specification-search-js', 'tyre_spec_ajax', array(
         'ajax_url' => admin_url('admin-ajax.php')

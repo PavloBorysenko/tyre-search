@@ -3,11 +3,7 @@ jQuery(document).ready(function ($) {
     checkSelectState();
 
     // Initialize Select2 for tyre name search
-    $('#tyre-search-by-name-select').select2({
-        placeholder: 'Select Tyre Name',
-        allowClear: true,
-        width: '100%',
-    });
+
     //added only for test
     new TomSelect('#tyre-search-by-name-select-tom', {
         create: true,

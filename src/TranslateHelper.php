@@ -25,6 +25,16 @@ class TranslateHelper {
         //        'Hello' => 'Cześć',
         //    ],
         //]
+        $overrideTranslationDefault = [];
+        /*$overrideTranslationDefault = [
+            'es_ES' => [
+                'Select Width' => 'Seleccionar ancho',
+                'Select Aspect Ratio' => 'Seleccionar relación de aspecto',
+                'Select Rim Diameter' => 'Seleccionar diámetro de llanta',
+                'Select Load Speed Index' => 'Seleccionar índice de carga/velocidad',
+            ],
+        ];*/
+        $overrideTranslation = array_merge($overrideTranslationDefault, $overrideTranslation);
         $this->overrideTranslation = $overrideTranslation;
     }
 
