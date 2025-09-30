@@ -4,22 +4,27 @@ jQuery(document).ready(function ($) {
 
     initTyreSizeModal();
 
-    new TomSelect('#tyre-search-by-name-select', {
-        create: true,
-        sortField: {
-            field: 'text',
-            direction: 'asc',
-        },
-        render: {
-            no_results: function (data, escape) {
-                const select = document.querySelector(
-                    '#tyre-search-by-name-select'
-                );
-                const noResults = select.dataset.noResults;
-                return '<div class="no-results">' + noResults + '</div>';
+    const searchByNameSelect = document.getElementById(
+        'tyre-search-by-name-select'
+    );
+    if (searchByNameSelect) {
+        new TomSelect(searchByNameSelect, {
+            create: true,
+            sortField: {
+                field: 'text',
+                direction: 'asc',
             },
-        },
-    });
+            render: {
+                no_results: function (data, escape) {
+                    const select = document.querySelector(
+                        '#tyre-search-by-name-select'
+                    );
+                    const noResults = select.dataset.noResults;
+                    return '<div class="no-results">' + noResults + '</div>';
+                },
+            },
+        });
+    }
 
     $('.tab-button').on('click', function () {
         const tabId = $(this).data('tab');
