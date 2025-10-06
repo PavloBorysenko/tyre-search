@@ -6,7 +6,7 @@ class TransientCache implements \TyreSearch\Cache\CacheInterface {
 
     private $cache_prefix = 'tyre_search_';
 
-    private $active = true;
+    private $active = false;
 
 
     public function get($key) {

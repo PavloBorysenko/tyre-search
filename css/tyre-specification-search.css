@@ -5,6 +5,7 @@
 
 .tyre-search-tabs {
     display: flex;
+    flex-wrap: wrap;
     margin-bottom: 0;
     background: #fff;
 }
@@ -88,7 +89,8 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .radio-custom,
@@ -172,14 +174,15 @@
 .search-btn {
     padding: 14px 32px;
     border: none;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .reset-btn {
     background: transparent;
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 .search-btn {
@@ -207,18 +210,26 @@
 .tyre-results-table {
     width: 100%;
     overflow: hidden;
+    border-spacing: initial;
+    border-collapse: collapse;
 }
 
 .tyre-results-table th,
 .tyre-results-table td {
     padding: 12px;
     text-align: center;
-    border-bottom: 1px solid #e7ebef;
+    border-color: #e7ebef;
+    border-width: 1px;
+    border-style: solid;
 }
 
 .tyre-results-table th {
-    background: #e7ebef;
+    background: #f6f7f9;
     color: #16191d;
+}
+
+.pagination-row td {
+    border: none;
 }
 
 .fuel-icon,
@@ -438,12 +449,32 @@
     background: #374151;
 }
 
+.tyre-name-search-form_contaner,
+.spec-dropdown-container {
+    position: relative;
+    display: flex;
+    width: 100%;
+}
+
+.tyre-name-search-form_contaner label,
+.spec-dropdown-container label {
+    display: none;
+    position: absolute;
+    top: -8px;
+    color: #4c5967;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+}
+
 /* Select Customization */
 
 .ts-wrapper {
-    z-index: 13;
-    width: 500px;
+    z-index: auto;
+    width: 100%;
+    min-height: 52px;
 }
+
 .ts-control {
     cursor: pointer !important;
     height: 100%;
@@ -458,10 +489,29 @@
     border-radius: 0;
     font-size: 16px;
     line-height: 24px;
+    font-weight: 600;
     background: transparent !important;
-    color: #16191d;
     appearance: none;
     position: relative;
+    box-shadow: none !important;
+}
+
+.ts-control input {
+    font-size: 16px;
+    line-height: 24px;
+    color: #16191d;
+}
+
+.ts-wrapper.single.input-active .ts-control,
+.ts-wrapper.single.input-active .ts-control input {
+    border-color: #16191d;
+}
+
+.ts-control input::placeholder {
+    color: #4c5967;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 700;
 }
 
 .ts-control::before {
@@ -477,6 +527,40 @@
     transition: all 0.3s ease;
 }
 
+.ts-dropdown {
+    margin-top: 0 !important;
+    border: none !important;
+    box-shadow: 0px 8px 16px 0px #16191d14;
+    border-radius: 0 !important;
+}
+
+.ts-dropdown-content::-webkit-scrollbar {
+    width: 2px;
+}
+
+.ts-dropdown-content::-webkit-scrollbar-track {
+    background-color: #e7ebef;
+}
+
+.ts-dropdown-content::-webkit-scrollbar-thumb {
+    background-color: #16181d;
+}
+
+.ts-dropdown .create,
+.ts-dropdown .no-results,
+.ts-dropdown .optgroup-header,
+.ts-dropdown .option {
+    padding: 16px 28px;
+    color: #16191d;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 600;
+}
+
+.ts-wrapper.single .ts-control:after {
+    display: none;
+}
+
 .ts-wrapper.dropdown-active .ts-control::before {
     transform: translateY(-50%) rotate(-180deg);
 }
@@ -489,7 +573,7 @@
     flex-wrap: wrap;
 }
 
-.info-icon {
+.tyre-info_icon {
     display: flex;
     width: 20px;
     height: 20px;
@@ -499,6 +583,10 @@
     mask-repeat: no-repeat;
     mask-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE4LjMzMDcgMTAuMDAwMUMxOC4zMzA3IDUuMzk3NzEgMTQuNTk5NyAxLjY2Njc1IDkuOTk3NCAxLjY2Njc1QzUuMzk1MDIgMS42NjY3NSAxLjY2NDA2IDUuMzk3NzEgMS42NjQwNiAxMC4wMDAxQzEuNjY0MDYgMTQuNjAyNCA1LjM5NTAyIDE4LjMzMzQgOS45OTc0IDE4LjMzMzRDMTQuNTk5NyAxOC4zMzM0IDE4LjMzMDcgMTQuNjAyNCAxOC4zMzA3IDEwLjAwMDFaIiBzdHJva2U9IiM0QzU5NjciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8cGF0aCBkPSJNMTAuNDE5MyAxMy43NTAxVjEwLjA4MzRDMTAuNDE5MyA5LjY1MTI5IDEwLjQxOTMgOS40MzUyMyAxMC4yOTcyIDkuMzAwOTlDMTAuMTc1MiA5LjE2Njc1IDkuOTc4NzcgOS4xNjY3NSA5LjU4NTk0IDkuMTY2NzUiIHN0cm9rZT0iIzRDNTk2NyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTEwIDYuNjY2NzVIMTAuMDAwMSIgc3Ryb2tlPSIjNEM1OTY3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4K');
     transition: all 0.3s ease;
+}
+
+.tyre-info_icon:hover {
+    background-color: #c52d2d;
 }
 
 /* Pagination Styles */
@@ -685,6 +773,7 @@ body.modal-open {
 
 .tyre-image-container svg {
     max-width: 100%;
+    height: auto;
 }
 
 /* Legend */
@@ -740,11 +829,60 @@ body.modal-open {
 
     .modal-legend {
         flex-direction: column;
-        gap: 20px;
+        gap: 12px;
     }
 
     .legend-column {
         gap: 12px;
+    }
+
+    .pagination-controls {
+        gap: 10px;
+    }
+
+    .pagination-prev-text,
+    .pagination-next-text {
+        display: none;
+    }
+
+    .pagination-prev::after {
+        content: '‹';
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .pagination-next::after {
+        content: '›';
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    /* Tabs */
+
+    .tyre-search-tabs .tab-button {
+        width: 100%;
+    }
+
+    /* Search*/
+
+    .tyre-name-search-form,
+    .ean-search-form {
+        flex-wrap: wrap;
+    }
+
+    .ts-control,
+    .ean-search-input-wrapper {
+        height: 52px;
+    }
+
+    .tyre-name-search-btn,
+    .ean-search-btn {
+        width: 100%;
+    }
+
+    .tyre-spec-search-form {
+        padding: 30px;
+        gap: 15px;
     }
 }
 
@@ -786,4 +924,7 @@ body.modal-open {
 }
 #tyre-spec-search-form .spec-dropdown {
     position: relative;
+}
+.ts-dropdown.single {
+    z-index: 99;
 }

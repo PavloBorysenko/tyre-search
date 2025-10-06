@@ -1,30 +1,65 @@
 jQuery(document).ready(function ($) {
     let all_tyres = [];
-    checkSelectState();
 
     initTyreSizeModal();
 
-    const searchByNameSelect = document.getElementById(
-        'tyre-search-by-name-select'
-    );
-    if (searchByNameSelect) {
-        new TomSelect(searchByNameSelect, {
-            create: true,
-            sortField: {
-                field: 'text',
-                direction: 'asc',
-            },
-            render: {
-                no_results: function (data, escape) {
-                    const select = document.querySelector(
-                        '#tyre-search-by-name-select'
-                    );
-                    const noResults = select.dataset.noResults;
-                    return '<div class="no-results">' + noResults + '</div>';
+    // Initialize TomSelect for all selects
+    const selectIds = [
+        'tyre-search-by-name-select',
+        'tyre_width',
+        'aspect_ratio',
+        'rim_diameter',
+        'load_speed_index',
+    ];
+
+    const tomSelectInstances = {};
+
+    selectIds.forEach((selectId) => {
+        const selectElement = document.getElementById(selectId);
+        if (selectElement) {
+            const tomSelectInstance = new TomSelect(selectElement, {
+                create: false,
+                maxOptions: null,
+                render: {
+                    no_results: function (data, escape) {
+                        const select = document.getElementById(selectId);
+                        const noResults = select.dataset.noResults;
+                        return (
+                            '<div class="no-results">' + noResults + '</div>'
+                        );
+                    },
                 },
-            },
-        });
-    }
+            });
+
+            tomSelectInstances[selectId] = tomSelectInstance;
+
+            // Add change event listener to show/hide label
+            tomSelectInstance.on('change', function (value) {
+                let label;
+                if (selectId === 'tyre-search-by-name-select') {
+                    label = document.querySelector(
+                        '#tyre-search-by-name-container label'
+                    );
+                } else {
+                    label = document
+                        .querySelector(`#${selectId}`)
+                        .closest('.spec-dropdown-container')
+                        .querySelector('label');
+                }
+
+                if (label) {
+                    if (value && value !== '') {
+                        label.style.display = 'block';
+                    } else {
+                        label.style.display = 'none';
+                    }
+                }
+            });
+        }
+    });
+
+    // Initialize checkSelectState after TomSelect instances are created
+    checkSelectState();
 
     $('.tab-button').on('click', function () {
         const tabId = $(this).data('tab');
@@ -36,6 +71,11 @@ jQuery(document).ready(function ($) {
         $('#tab-' + tabId).addClass('active');
 
         $('#tyre-search-results').hide();
+
+        // Hide all select labels when switching tabs
+        if (tabId !== 'name') {
+            resetAllSelects();
+        }
     });
 
     $('#tyre-spec-search-form').on('submit', function (e) {
@@ -62,7 +102,9 @@ jQuery(document).ready(function ($) {
     });
 
     $('#search-tyres-by-name').on('click', function () {
-        const selectedTyreId = $('#tyre-search-by-name-select').val();
+        const selectedTyreId = tomSelectInstances['tyre-search-by-name-select']
+            ? tomSelectInstances['tyre-search-by-name-select'].getValue()
+            : $('#tyre-search-by-name-select').val();
         if (selectedTyreId) {
             performTyreNameSearch(selectedTyreId);
         }
@@ -87,13 +129,21 @@ jQuery(document).ready(function ($) {
         $('.ean-search-ean-no-results').hide();
     });
 
-    // Init search on change
-    $(
-        '#tyre-spec-search-form .spec-dropdown select, #tyre-spec-search-form input'
-    ).on('change', function () {
+    // Init search on change for regular inputs
+    $('#tyre-spec-search-form input').on('change', function () {
         CheckStateResetFilterButtons();
-        checkSelectState(this);
         performTyreSearch();
+    });
+
+    // Handle TomSelect changes
+    selectIds.forEach((selectId) => {
+        if (tomSelectInstances[selectId]) {
+            tomSelectInstances[selectId].on('change', function (value) {
+                CheckStateResetFilterButtons();
+                checkSelectState(document.getElementById(selectId));
+                performTyreSearch();
+            });
+        }
     });
 
     function performTyreSearch() {
@@ -105,10 +155,18 @@ jQuery(document).ready(function ($) {
                     return this.value;
                 })
                 .get(),
-            tyre_width: $('#tyre_width').val(),
-            aspect_ratio: $('#aspect_ratio').val(),
-            rim_diameter: $('#rim_diameter').val(),
-            load_index: $('#load_speed_index').val(),
+            tyre_width: tomSelectInstances['tyre_width']
+                ? tomSelectInstances['tyre_width'].getValue()
+                : $('#tyre_width').val(),
+            aspect_ratio: tomSelectInstances['aspect_ratio']
+                ? tomSelectInstances['aspect_ratio'].getValue()
+                : $('#aspect_ratio').val(),
+            rim_diameter: tomSelectInstances['rim_diameter']
+                ? tomSelectInstances['rim_diameter'].getValue()
+                : $('#rim_diameter').val(),
+            load_index: tomSelectInstances['load_speed_index']
+                ? tomSelectInstances['load_speed_index'].getValue()
+                : $('#load_speed_index').val(),
         };
 
         $('#tyre-search-results').hide();
@@ -259,6 +317,49 @@ jQuery(document).ready(function ($) {
         $('#aspect_ratio option').show();
         $('#rim_diameter option').show();
         $('#load_speed_index option').show();
+
+        // Reset all selects and hide their labels
+        resetAllSelects();
+    }
+
+    function resetTyreNameSelect() {
+        const tyreNameSelect = document.getElementById(
+            'tyre-search-by-name-select'
+        );
+        if (tyreNameSelect) {
+            tyreNameSelect.value = '';
+            const label = document.querySelector(
+                '#tyre-search-by-name-container label'
+            );
+            if (label) {
+                label.style.display = 'none';
+            }
+        }
+    }
+
+    function resetAllSelects() {
+        selectIds.forEach((selectId) => {
+            const selectElement = document.getElementById(selectId);
+            if (selectElement && tomSelectInstances[selectId]) {
+                tomSelectInstances[selectId].clear();
+
+                let label;
+                if (selectId === 'tyre-search-by-name-select') {
+                    label = document.querySelector(
+                        '#tyre-search-by-name-container label'
+                    );
+                } else {
+                    label = document
+                        .querySelector(`#${selectId}`)
+                        .closest('.spec-dropdown-container')
+                        .querySelector('label');
+                }
+
+                if (label) {
+                    label.style.display = 'none';
+                }
+            }
+        });
     }
 
     function isFormHasSelected() {
@@ -273,38 +374,53 @@ jQuery(document).ready(function ($) {
         );
     }
     function checkSelectState(select_element = null) {
-        let selects = [
-            $('#tyre_width'),
-            $('#aspect_ratio'),
-            $('#rim_diameter'),
-            $('#load_speed_index'),
+        let selectIds = [
+            'tyre_width',
+            'aspect_ratio',
+            'rim_diameter',
+            'load_speed_index',
         ];
+
         if (select_element != null && $(select_element).val() != '') {
             let reset = false;
-            selects.forEach(function (select) {
-                if (reset) {
-                    $(select).val('');
+            selectIds.forEach(function (selectId) {
+                if (reset && tomSelectInstances[selectId]) {
+                    tomSelectInstances[selectId].clear();
                 }
-                if ($(select).attr('id') == $(select_element).attr('id')) {
+                if (selectId == $(select_element).attr('id')) {
                     reset = true;
                 }
             });
         }
+
         let disabled = false;
-        selects.forEach(function (select) {
-            if (disabled) {
-                select.prop('disabled', true);
-                select.val('');
-            } else {
-                select.prop('disabled', false);
-            }
-            if (select.val() === '') {
-                disabled = true;
-            }
-            if (select.val() !== '') {
-                $(select).parent('.spec-dropdown').find('label').show();
-            } else {
-                $(select).parent('.spec-dropdown').find('label').hide();
+        selectIds.forEach(function (selectId) {
+            const tomSelectInstance = tomSelectInstances[selectId];
+            if (tomSelectInstance) {
+                if (disabled) {
+                    tomSelectInstance.disable();
+                    tomSelectInstance.clear();
+                } else {
+                    tomSelectInstance.enable();
+                }
+
+                const value = tomSelectInstance.getValue();
+                if (value === '') {
+                    disabled = true;
+                }
+
+                // Show/hide label
+                const label = document
+                    .querySelector(`#${selectId}`)
+                    .closest('.spec-dropdown-container')
+                    .querySelector('label');
+                if (label) {
+                    if (value && value !== '') {
+                        label.style.display = 'block';
+                    } else {
+                        label.style.display = 'none';
+                    }
+                }
             }
         });
     }
@@ -600,7 +716,7 @@ jQuery(document).ready(function ($) {
         const closeBtn = $('.modal-close');
         const overlay = $('.modal-overlay');
 
-        $('.info-icon').on('click', function (e) {
+        $('.tyre-info_icon').on('click', function (e) {
             e.preventDefault();
             openModal();
         });
