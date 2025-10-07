@@ -46,7 +46,10 @@
                             continue;
                         } ?>
                         <label class="vehicle-type-option" data-vehicle_type="<?php echo esc_attr($vehicle_type->slug); ?>">
-                            <input type="radio" name="vehicle_type" value="<?php echo esc_attr($vehicle_type->slug); ?>">
+                            <input  
+                            type="radio" 
+                            name="vehicle_type" 
+                            value="<?php echo esc_attr($vehicle_type->slug); ?>">
                             <span class="radio-custom"></span>
                             <span class="option-text"><?php echo esc_html($vehicle_type->name); ?></span>
                         </label>
@@ -127,7 +130,7 @@
                 </div>
 
                 <div class="search-actions">
-                    <button type="button" id="reset-search" class="reset-btn"><?php echo esc_html('Reset'); ?></button>
+                    <button type="button" disabled id="reset-search" class="reset-btn"><?php echo esc_html('Reset'); ?></button>
                     <button type="submit" id="search-tyres" class="search-btn"><?php echo esc_html('Search'); ?></button>
                 </div>
             </div>

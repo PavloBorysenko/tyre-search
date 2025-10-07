@@ -24,8 +24,7 @@
 }
 
 .tab-button:hover {
-    background: #16181d;
-    color: #ffffff;
+    color: #c52d2d;
 }
 
 .tab-button.active {
@@ -1028,7 +1027,4 @@ body.modal-open {
 #tyre-spec-search-form .spec-dropdown select:disabled {
     cursor: not-allowed;
     color: #aaaeb3;
-}
-.ts-dropdown .create {
-    display: none;
 }

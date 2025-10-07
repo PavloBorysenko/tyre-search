@@ -5,12 +5,23 @@ jQuery(document).ready(function ($) {
 
     initTyreSizeModal();
 
+    // Auto-select 'car' vehicle type on page load
+    setTimeout(function () {
+        const carRadio = $('input[name="vehicle_type"][value="car"]');
+        if (
+            carRadio.length > 0 &&
+            !$('input[name="vehicle_type"]:checked').length
+        ) {
+            carRadio.prop('checked', true).trigger('change');
+        }
+    }, 100);
+
     const searchByNameSelect = document.getElementById(
         'tyre-search-by-name-select'
     );
     if (searchByNameSelect) {
         new TomSelect(searchByNameSelect, {
-            create: true,
+            maxOptions: null,
             sortField: {
                 field: 'text',
                 direction: 'asc',
@@ -180,6 +191,7 @@ jQuery(document).ready(function ($) {
                         }
                         if (all_tyres.no_results) {
                             noResults.style.display = 'block';
+                            noResults.textContent = all_tyres.no_results;
                         }
                         return;
                     }
@@ -338,10 +350,10 @@ jQuery(document).ready(function ($) {
     }
     function CheckStateResetFilterButtons() {
         if (isFormHasSelected()) {
-            $('#reset-search').show();
+            $('#reset-search').prop('disabled', false);
             $('#search-tyres').show();
         } else {
-            $('#reset-search').hide();
+            $('#reset-search').prop('disabled', true);
             $('#search-tyres').hide();
         }
     }

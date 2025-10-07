@@ -116,6 +116,11 @@ function handle_tyre_ean_search() {
     $tyres_search = new TyresSearch($translate_helper);
     $result = $tyres_search->searchByEan($ean);
 
+    if (isset($result[0]) && isset($result[0]['eu_label']) && 'TMB' == $result[0]['eu_label']) {
+        $result = [];
+        $no_results = $translate_helper->getTranslatepressTranslation('This tyre does not have an EU label.');
+    }
+
     if (isset($result[0]) && isset($result[0]['tyre_id']) && isset($result[0]['tyre_variant_index'])) {
         if (function_exists('pdf_tire_generator_handle')) {
             $result[0]['pdf_url'] = pdf_tire_generator_handle(
