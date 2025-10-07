@@ -467,6 +467,105 @@
     line-height: 16px;
 }
 
+.tyre-name-search-form_contaner label.show {
+    display: block;
+}
+
+/* DEFAULT SELECT CUCTOMIZATION */
+
+#tyre-spec-search-form .spec-dropdown select {
+    border: none;
+    outline: none;
+    box-shadow: none;
+    background: none;
+    border-radius: 1px;
+    border-bottom: 1px solid #d5d9dd;
+    min-height: 52px;
+    color: #16191d;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 700;
+}
+
+#tyre-spec-search-form .spec-dropdown select:open {
+    border-bottom: 1px solid #16191d;
+}
+
+#tyre_width option,
+#aspect_ratio option,
+#rim_diameter option,
+#load_speed_index option {
+    padding: 16px 28px;
+    color: #16191d;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 600;
+}
+
+/* Placeholder state (empty value selected) should display muted color */
+#tyre_width:has(option:checked[value='']),
+#aspect_ratio:has(option:checked[value='']),
+#rim_diameter:has(option:checked[value='']),
+#load_speed_index:has(option:checked[value='']) {
+    color: #4c5967;
+}
+
+#tyre_width option::checkmark,
+#aspect_ratio option::checkmark,
+#rim_diameter option::checkmark,
+#load_speed_index option::checkmark {
+    display: none;
+}
+
+#tyre_width,
+#aspect_ratio,
+#rim_diameter,
+#load_speed_index,
+#tyre_width::picker(select),
+#aspect_ratio::picker(select),
+#rim_diameter::picker(select),
+#load_speed_index::picker(select) {
+    appearance: base-select;
+}
+
+#tyre_width::picker(select),
+#aspect_ratio::picker(select),
+#rim_diameter::picker(select),
+#load_speed_index::picker(select) {
+    max-height: 200px;
+    overflow: hidden auto;
+    scroll-behavior: smooth;
+    border: none;
+    box-shadow: 0px 8px 16px 0px #16191d14;
+    border-radius: 0;
+
+    top: calc(anchor(bottom) + 1px);
+    left: 0;
+}
+
+#tyre_width::picker-icon,
+#aspect_ratio::picker-icon,
+#rim_diameter::picker-icon,
+#load_speed_index::picker-icon {
+    content: '';
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUgNy40OTk5MkwxMCAxMi40OTk5TDE1IDcuNDk5ODgiIHN0cm9rZT0iIzE2MTkxRCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1taXRlcmxpbWl0PSIxNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=');
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    transition: all 0.3s ease;
+}
+
+#tyre_width:open::picker-icon,
+#aspect_ratio:open::picker-icon,
+#rim_diameter:open::picker-icon,
+#load_speed_index:open::picker-icon {
+    transform: translateY(-50%) rotate(-180deg);
+}
+
 /* Select Customization */
 
 .ts-wrapper {
@@ -500,6 +599,10 @@
     font-size: 16px;
     line-height: 24px;
     color: #16191d;
+}
+
+.ts-dropdown .active {
+    background-color: color-mix(in lab, currentcolor 10%, transparent);
 }
 
 .ts-wrapper.single.input-active .ts-control,
@@ -907,19 +1010,12 @@ body.modal-open {
 }
 
 /* Dropdown */
-#tyre-spec-search-form .spec-dropdown select {
-    border: none;
-    outline: none;
-    box-shadow: none;
-    background: none;
-    border-radius: 1px;
-    border-bottom: 2px solid #ddd;
-}
+
 #tyre-spec-search-form .spec-dropdown label {
     display: none;
     position: absolute;
     margin: 0px;
-    bottom: 100%;
+    top: -8px;
     font-size: 12px;
 }
 #tyre-spec-search-form .spec-dropdown {
@@ -927,4 +1023,12 @@ body.modal-open {
 }
 .ts-dropdown.single {
     z-index: 99;
+}
+
+#tyre-spec-search-form .spec-dropdown select:disabled {
+    cursor: not-allowed;
+    color: #aaaeb3;
+}
+.ts-dropdown .create {
+    display: none;
 }

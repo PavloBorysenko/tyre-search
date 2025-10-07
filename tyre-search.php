@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Tyre Search
  * Description: Tyre Search plugin
- * Version: 1.0.2
+ * Version: 1.1.0
  * Author: Na-Gora&totoroko
  * Author URI: #
  * License: GPL-2.0+
