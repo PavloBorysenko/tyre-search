@@ -31,7 +31,7 @@ class TranslateHelper {
         $overrideTranslationDefault = [];
         /*$overrideTranslationDefault = [
             'es_ES' => [
-                'Select Width' => 'Seleccionar ancho',
+                'Select Tyre Width' => 'Seleccionar ancho',
                 'Select Aspect Ratio' => 'Seleccionar relación de aspecto',
                 'Select Rim Diameter' => 'Seleccionar diámetro de llanta',
                 'Select Load Speed Index' => 'Seleccionar índice de carga/velocidad',
@@ -39,7 +39,7 @@ class TranslateHelper {
                 'Select Tyre Name' => 'Seleccionar nombre de la goma',
             ],
             'it_IT' => [
-                'Select Width' => 'Seleziona larghezza',
+                'Select Tyre Width' => 'Seleziona larghezza',
                 'Select Aspect Ratio' => 'Seleziona rapporto di aspetto',
                 'Select Rim Diameter' => 'Seleziona diametro di ruota',
                 'Select Load Speed Index' => 'Seleziona indice di carico/velocità',
@@ -47,7 +47,7 @@ class TranslateHelper {
                 'Select Tyre Name' => 'Seleziona nome della gomma',
             ],
             'fr_FR' => [
-                'Select Width' => 'Sélectionner la largeur',
+                'Select Tyre Width' => 'Sélectionner la largeur',
                 'Select Aspect Ratio' => 'Sélectionner le rapport de aspect',
                 'Select Rim Diameter' => 'Sélectionner le diamètre de la jante',
                 'Select Load Speed Index' => 'Sélectionner l\'indice de charge/vitesse',
@@ -55,7 +55,7 @@ class TranslateHelper {
                 'Select Tyre Name' => 'Sélectionner le nom de la gomme',
             ],
             'de_DE' => [
-                'Select Width' => 'Breite auswählen',
+                'Select Tyre Width' => 'Breite auswählen',
                 'Select Aspect Ratio' => 'Verhältnis auswählen',
                 'Select Rim Diameter' => 'Jentilänge auswählen',
                 'Select Load Speed Index' => 'Ladefaktor/Geschwindigkeitsindex auswählen',  
@@ -63,7 +63,7 @@ class TranslateHelper {
                 'Select Tyre Name' => 'Reifenname auswählen',
             ],
             'pl_PL' => [
-                'Select Width' => 'Wybierz szerokość',
+                'Select Tyre Width' => 'Wybierz szerokość',
                 'Select Aspect Ratio' => 'Wybierz współczynnik',
                 'Select Rim Diameter' => 'Wybierz średnicę felgi',
                 'Select Load Speed Index' => 'Wybierz indeks obciążenia/prędkości',

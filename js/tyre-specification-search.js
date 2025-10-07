@@ -462,6 +462,7 @@ jQuery(document).ready(function ($) {
                     <td>${tyre.size || ''}</td>
                     <td>${tyre.note || ''}</td>
                     <td>${tyre.art || ''}</td>
+                    <td>${tyre.ean || ''}</td>
                     <td class="fuel-icon">${tyre.fuel_efficiency || ''}</td>
                     <td class="wet-icon">${tyre.wet_grip || ''}</td>
                     <td class="noise-icon">${tyre.noise || ''}</td>

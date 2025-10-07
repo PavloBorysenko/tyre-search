@@ -31,7 +31,7 @@ class TyresData {
         $data = [
             //'id'                  => $tyre_id,
             //'tyre_variant_index'  => (int) $index,
-            //'ean'                 => $tyre_data['eanjan'] ?? '',
+            'ean'                 => $tyre_data['eanjan'] ?? '',
             'tyre_name'          => get_the_title($tyre_id),
             'inch'               => $tyre_data['inch'] ?? '',
             'size'               => $tyre_data['size'] ?? '',

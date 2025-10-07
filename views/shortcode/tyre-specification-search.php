@@ -83,7 +83,7 @@
                     <div class="spec-dropdown">
                         <label for="tyre_width"><?php echo esc_html('Tyre Width'); ?></label>
                         <select id="tyre_width" name="tyre_width">
-                            <option value=""><?php echo  esc_html($translated_strings['Select Width']); ?></option>
+                            <option value=""><?php echo  esc_html($translated_strings['Select Tyre Width']); ?></option>
                             <?php
                                 foreach ($widths as $width) {
                                     echo '<option value="' . esc_attr($width) . '">' . esc_html($width) . '</option>';
@@ -178,6 +178,7 @@
                             <th><?php echo esc_html('SIZE'); ?></th>
                             <th><?php echo esc_html('NOTE'); ?></th>
                             <th><?php echo esc_html('ART.'); ?></th>
+                            <th><?php echo esc_html('EAN/JAN'); ?></th>
                             <th class="fuel-icon" title="<?php echo esc_attr('Fuel Efficiency'); ?>">
                                 <svg width="47" height="39" viewBox="0 0 47 39" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M8.26667 37.9385C3.70256 37.9385 0 30.759 0 21.9077C0 13.0564 3.70256 5.87695 8.26667 5.87695H17.9692C22.5333 5.87695 26.2359 13.0564 26.2359 21.9077C26.2359 30.759 22.5333 37.9385 17.9692 37.9385H8.26667Z" fill="#16181D"/>
