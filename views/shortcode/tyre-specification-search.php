@@ -492,7 +492,7 @@
             <div class="loading-spinner"></div>
             <p><?php echo esc_html('Searching for tyres...'); ?></p>
         </div>
-        </div>
+       <!-- </div> -->
 
         <!-- Pagination Template (hidden) -->
         <template id="pagination-template">

@@ -3,16 +3,6 @@ jQuery(document).ready(function ($) {
 
     initTyreSizeModal();
 
-    // Auto-select 'car' vehicle type on page load
-    setTimeout(function () {
-        const carRadio = $('input[name="vehicle_type"][value="car"]');
-        if (
-            carRadio.length > 0 &&
-            !$('input[name="vehicle_type"]:checked').length
-        ) {
-            carRadio.prop('checked', true).trigger('change');
-        }
-    }, 100);
     // Initialize TomSelect for all selects
     const selectIds = [
         'tyre-search-by-name-select',
@@ -97,7 +87,7 @@ jQuery(document).ready(function ($) {
 
         // Hide all select labels when switching tabs
         if (tabId !== 'name') {
-            resetAllSelects();
+            //resetAllSelects();
         }
     });
 
@@ -150,12 +140,33 @@ jQuery(document).ready(function ($) {
         $('.ean-search-ean-no-results').hide();
     });
 
+    let lastVehicleType = null;
     // Init search on change for regular inputs
     $('#tyre-spec-search-form input').on('change', function () {
+        if ($(this).attr('name') === 'vehicle_type') {
+            const currentValue = $(this).val();
+            if (lastVehicleType !== null && lastVehicleType !== currentValue) {
+                resetSearchForm();
+                $(this).prop('checked', true);
+            }
+            lastVehicleType = currentValue;
+        }
+
         CheckStateResetFilterButtons();
         performTyreSearch();
     });
 
+    // Auto-select 'car' vehicle type on page load
+    const carRadio = $('input[name="vehicle_type"][value="car"]');
+    if (
+        carRadio.length > 0 &&
+        !$('input[name="vehicle_type"]:checked').length
+    ) {
+        lastVehicleType = 'car';
+        carRadio.prop('checked', true);
+        CheckStateResetFilterButtons();
+        performTyreSearch();
+    }
     // Handle TomSelect changes
     selectIds.forEach((selectId) => {
         if (tomSelectInstances[selectId]) {
@@ -357,7 +368,7 @@ jQuery(document).ready(function ($) {
                 }
 
                 tomSelectInstance.refreshOptions(false);
-                tomSelectInstance.clear();
+                tomSelectInstance.clear(true);
 
                 let label;
                 if (selectId === 'tyre-search-by-name-select') {
@@ -606,6 +617,10 @@ jQuery(document).ready(function ($) {
                 const row = this.createTyreRow(tyre);
                 this.tbody.append(row);
             });
+            //add custom global event on pure js after render tyres
+            document.dispatchEvent(
+                new CustomEvent('tyre-search-results-rendered')
+            );
         }
 
         createTyreRow(tyre) {
@@ -762,9 +777,11 @@ jQuery(document).ready(function ($) {
         }
 
         bindEvents() {
+            this.tbody.off('click', '.pagination-btn');
+
             this.tbody.on('click', '.pagination-btn', (e) => {
                 e.preventDefault();
-                const button = $(e.target).closest('.pagination-btn');
+                const button = $(e.currentTarget);
 
                 if (button.prop('disabled') || button.hasClass('active'))
                     return;

@@ -1027,3 +1027,11 @@ body.modal-open {
 #tyre-specification-search .ts-dropdown-content {
     max-height: 220px;
 }
+#tyre-specification-search {
+    min-height: 600px;
+}
+#tyre-specification-search .generate-tire-pdf-btn {
+    color: #c52d2d;
+    cursor: pointer;
+    text-transform: uppercase;
+}
