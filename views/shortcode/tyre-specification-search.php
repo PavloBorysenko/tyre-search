@@ -81,51 +81,71 @@
 
                 <div class="tyre-specs-dropdowns">
                     <div class="spec-dropdown">
-                        <label for="tyre_width"><?php echo esc_html('Tyre Width'); ?></label>
-                        <select id="tyre_width" name="tyre_width">
-                            <option value=""><?php echo  esc_html($translated_strings['Select Tyre Width']); ?></option>
-                            <?php
-                                foreach ($widths as $width) {
-                                    echo '<option value="' . esc_attr($width) . '">' . esc_html($width) . '</option>';
-                                }
-                            ?>
-                        </select>
+                        <div class="spec-dropdown-container">
+                            <label for="tyre_width"><?php echo esc_html('Tyre Width'); ?></label>
+                            <select id="tyre_width" name="tyre_width" 
+                                    placeholder="<?php echo esc_html($translated_strings['Select Tyre Width']); ?>"
+                                    data-no-results="<?php echo esc_html($translated_strings['No search results.']); ?>"
+                                    autocomplete="off">
+                                <option value=""><?php echo  esc_html($translated_strings['Select Tyre Width']); ?></option>
+                                <?php
+                                    foreach ($widths as $width) {
+                                        echo '<option value="' . esc_attr($width) . '">' . esc_html($width) . '</option>';
+                                    }
+                                ?>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="spec-dropdown">
-                        <label for="aspect_ratio"><?php echo esc_html('Aspect Ratio'); ?></label>
-                        <select id="aspect_ratio" name="aspect_ratio">
-                            <option value=""><?php echo esc_html($translated_strings['Select Aspect Ratio']); ?></option>
-                            <?php
-                                foreach ($ratios as $ratio) {
-                                    echo '<option value="' . esc_attr($ratio) . '">' . esc_html($ratio) . '</option>';
-                                }
-                            ?>
-                        </select>
+                        <div class="spec-dropdown-container">
+                            <label for="aspect_ratio"><?php echo esc_html('Aspect Ratio'); ?></label>
+                            <select id="aspect_ratio" name="aspect_ratio" 
+                                    placeholder="<?php echo esc_html($translated_strings['Select Aspect Ratio']); ?>"
+                                    data-no-results="<?php echo esc_html($translated_strings['No search results.']); ?>"
+                                    autocomplete="off">
+                                <option value=""><?php echo esc_html($translated_strings['Select Aspect Ratio']); ?></option>
+                                <?php
+                                    foreach ($ratios as $ratio) {
+                                        echo '<option value="' . esc_attr($ratio) . '">' . esc_html($ratio) . '</option>';
+                                    }
+                                ?>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="spec-dropdown">
-                        <label for="rim_diameter"><?php echo esc_html('Rim Diameter'); ?></label>
-                        <select id="rim_diameter" name="rim_diameter">
-                            <option value=""><?php echo esc_html($translated_strings['Select Rim Diameter']); ?></option>
-                            <?php
-                                foreach ($diameters as $diameter) {
-                                    echo '<option value="' . esc_attr($diameter) . '">' . esc_html($diameter) . '</option>';
-                                }
-                            ?>
-                        </select>
+                        <div class="spec-dropdown-container">
+                            <label for="rim_diameter"><?php echo esc_html('Rim Diameter'); ?></label>
+                            <select id="rim_diameter" name="rim_diameter" 
+                                    placeholder="<?php echo esc_html($translated_strings['Select Rim Diameter']); ?>"
+                                    data-no-results="<?php echo esc_html($translated_strings['No search results.']); ?>"
+                                    autocomplete="off">
+                                <option value=""><?php echo esc_html($translated_strings['Select Rim Diameter']); ?></option>
+                                <?php
+                                    foreach ($diameters as $diameter) {
+                                        echo '<option value="' . esc_attr($diameter) . '">' . esc_html($diameter) . '</option>';
+                                    }
+                                ?>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="spec-dropdown">
-                        <label for="load_speed_index"><?php echo esc_html('Load Speed Index'); ?></label>
-                        <select id="load_speed_index" name="load_index">
-                            <option value=""><?php echo esc_html(  $translated_strings['Select Load Speed Index']); ?></option>
-                            <?php
-                                foreach ($load_speed_indices as $index) {
-                                    echo '<option value="' . esc_attr($index) . '">' . esc_html($index) . '</option>';
-                                }
-                            ?>
-                        </select>
+                        <div class="spec-dropdown-container">
+                            <label for="load_speed_index"><?php echo esc_html('Load Speed Index'); ?></label>
+                            <select id="load_speed_index" name="load_index" 
+                                    placeholder="<?php echo esc_html($translated_strings['Select Load Speed Index']); ?>"
+                                    data-no-results="<?php echo esc_html($translated_strings['No search results.']); ?>"
+                                    autocomplete="off">
+                                <option value=""><?php echo esc_html(  $translated_strings['Select Load Speed Index']); ?></option>
+                                <?php
+                                    foreach ($load_speed_indices as $index) {
+                                        echo '<option value="' . esc_attr($index) . '">' . esc_html($index) . '</option>';
+                                    }
+                                ?>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
@@ -477,19 +497,17 @@
         <!-- Pagination Template (hidden) -->
         <template id="pagination-template">
             <tr class="pagination-row">
-                <td colspan="11">
+                <td colspan="12">
                     <div class="pagination-info" style="display: none;">
                         <span class="pagination-showing">Showing <span class="from">1</span>-<span class="to">10</span> of <span class="total">100</span> results</span>
                     </div>
                     <div class="pagination-controls">
                         <button class="pagination-btn pagination-prev" data-action="prev">
-                            <span class="pagination-prev-text">Previous</span>
                         </button>
                         <div class="pagination-numbers">
                             <!-- Page numbers will be inserted here -->
                         </div>
                         <button class="pagination-btn pagination-next" data-action="next">
-                            <span class="pagination-next-text">Next</span>
                         </button>
                     </div>
                 </td>

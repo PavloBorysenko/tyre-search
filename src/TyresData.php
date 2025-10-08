@@ -40,6 +40,7 @@ class TyresData {
             'fuel_efficiency'    => $tyre_data['fuel_icon'] ?? '',
             'wet_grip'           => $tyre_data['wet_grip'] ?? '',
             'noise'              => $tyre_data['external_noise'] ?? '',
+            'noise_db'           => $tyre_data['exterl_noise_db'] ?? '',
             'snow_grip'          => $tyre_data['snow_grip'] ?? '',
             'ice_grip'           => $tyre_data['ice_grip'] ?? '',
             'width'              => $tyre_data['width'] ?? '',

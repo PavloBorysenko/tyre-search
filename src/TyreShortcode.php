@@ -35,7 +35,7 @@ class TyreShortcode {
         $load_speed_indices = $filters_data['load_speed_indices'];
         $tyre_names  = $filters_data['tyre_names'];
         $translated_strings = [
-            'Select Width' => $this->translateHelper->getTranslatepressTranslation('Select Width'),
+            'Select Tyre Width' => $this->translateHelper->getTranslatepressTranslation('Select Tyre Width'),
             'Select Aspect Ratio' => $this->translateHelper->getTranslatepressTranslation('Select Aspect Ratio'),
             'Select Rim Diameter' => $this->translateHelper->getTranslatepressTranslation('Select Rim Diameter'),
             'Select Load Speed Index' => $this->translateHelper->getTranslatepressTranslation('Select Load Speed Index'),
