@@ -13,6 +13,7 @@ jQuery(document).ready(function ($) {
     ];
 
     const tomSelectInstances = {};
+    let currentPagination = null;
 
     selectIds.forEach((selectId) => {
         const selectElement = document.getElementById(selectId);
@@ -313,12 +314,18 @@ jQuery(document).ready(function ($) {
 
     function displaySearchResults(data) {
         var tbody = $('#tyre-results-tbody');
+
+        if (currentPagination) {
+            currentPagination.clearResults();
+            currentPagination = null;
+        }
+
         tbody.empty();
         $('#tyre-search-loading').show();
 
         if (data.tyres && data.tyres.length > 0) {
-            const pagination = new TyrePagination(data.tyres, tbody, 10);
-            pagination.init();
+            currentPagination = new TyrePagination(data.tyres, tbody, 10);
+            currentPagination.init();
         } else {
             tbody.append(
                 '<tr><td colspan="12" style="text-align: center; padding: 20px;">No tyres found matching your criteria.</td></tr>'
@@ -587,11 +594,19 @@ jQuery(document).ready(function ($) {
             this.itemsPerPage = itemsPerPage;
             this.currentPage = 1;
             this.totalPages = Math.ceil(tyres.length / itemsPerPage);
+            this.perPageTomSelect = null;
         }
 
         init() {
             this.renderPage(1);
             this.bindEvents();
+        }
+
+        changeItemsPerPage(newItemsPerPage) {
+            this.itemsPerPage = newItemsPerPage;
+            this.totalPages = Math.ceil(this.tyres.length / this.itemsPerPage);
+            this.currentPage = 1;
+            this.renderPage(1);
         }
 
         renderPage(page) {
@@ -602,6 +617,11 @@ jQuery(document).ready(function ($) {
         }
 
         clearResults() {
+            if (this.perPageTomSelect) {
+                this.perPageTomSelect.destroy();
+                this.perPageTomSelect = null;
+            }
+
             this.tbody.find('.tyre-result-row, .pagination-row').remove();
         }
 
@@ -617,7 +637,7 @@ jQuery(document).ready(function ($) {
                 const row = this.createTyreRow(tyre);
                 this.tbody.append(row);
             });
-            //add custom global event on pure js after render tyres
+
             document.dispatchEvent(
                 new CustomEvent('tyre-search-results-rendered')
             );
@@ -625,32 +645,35 @@ jQuery(document).ready(function ($) {
 
         createTyreRow(tyre) {
             return `
-                <tr class="tyre-result-row">
-                    <td>${tyre.tyre_name || ''}</td>
-                    <td>${tyre.inch || ''}</td>
-                    <td>${tyre.size || ''}</td>
-                    <td>${tyre.note || ''}</td>
-                    <td>${tyre.art || ''}</td>
-                    <td>${tyre.ean || ''}</td>
-                    <td class="fuel-icon">${tyre.fuel_efficiency || ''}</td>
-                    <td class="wet-icon">${tyre.wet_grip || ''}</td>
-                    <td class="noise-icon">${
-                        tyre.noise_db
-                            ? tyre.noise_db + 'DB/' + (tyre.noise || '')
-                            : ''
-                    }</td>
-                    <td class="snow-icon">${tyre.snow_grip || ''}</td>
-                    <td class="ice_grip-icon">${tyre.ice_grip || ''}</td>
-                    <td>${tyre.eu_label || ''}</td>
-                </tr>
-            `;
+            <tr class="tyre-result-row">
+                <td>${tyre.tyre_name || ''}</td>
+                <td>${tyre.inch || ''}</td>
+                <td>${tyre.size || ''}</td>
+                <td>${tyre.note || ''}</td>
+                <td>${tyre.art || ''}</td>
+                <td>${tyre.ean || ''}</td>
+                <td class="fuel-icon">${tyre.fuel_efficiency || ''}</td>
+                <td class="wet-icon">${tyre.wet_grip || ''}</td>
+                <td class="noise-icon">${
+                    tyre.noise_db
+                        ? tyre.noise_db + 'DB/' + (tyre.noise || '')
+                        : ''
+                }</td>
+                <td class="snow-icon">${tyre.snow_grip || ''}</td>
+                <td class="ice_grip-icon">${tyre.ice_grip || ''}</td>
+                <td>${tyre.eu_label || ''}</td>
+            </tr>
+        `;
         }
 
         renderPagination() {
-            if (this.totalPages <= 1) return;
+            if (this.totalPages <= 0) return;
 
             const template = document.getElementById('pagination-template');
             const clone = template.content.cloneNode(true);
+
+            const selectElement = clone.querySelector('.items-per-page-select');
+            selectElement.value = this.itemsPerPage;
 
             // Update info
             this.updatePaginationInfo(clone);
@@ -662,6 +685,8 @@ jQuery(document).ready(function ($) {
             this.updatePageNumbers(clone);
 
             this.tbody.append(clone);
+
+            this.initPerPageTomSelect();
         }
 
         updatePaginationInfo(clone) {
@@ -798,6 +823,39 @@ jQuery(document).ready(function ($) {
                     scrollToResults();
                 }
             });
+        }
+
+        initPerPageTomSelect() {
+            const selectElement = this.tbody[0].querySelector(
+                '.items-per-page-select'
+            );
+
+            if (selectElement && !this.perPageTomSelect) {
+                this.perPageTomSelect = new TomSelect(selectElement, {
+                    create: false,
+                    controlInput: null,
+                    searchField: [],
+                    allowEmptyOption: false,
+                    closeAfterSelect: true,
+                    hideSelected: false,
+                    maxOptions: 10,
+                    dropdownParent: 'body',
+                });
+
+                const wrapper = this.perPageTomSelect.wrapper;
+                wrapper.classList.add('dropdown-up');
+                this.perPageTomSelect.dropdown.classList.add(
+                    'tyres-search-per-page-dd'
+                );
+
+                this.perPageTomSelect.on('change', (value) => {
+                    if (value) {
+                        const newItemsPerPage = parseInt(value);
+                        this.changeItemsPerPage(newItemsPerPage);
+                        scrollToResults();
+                    }
+                });
+            }
         }
     }
 

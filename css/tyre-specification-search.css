@@ -227,10 +227,6 @@
     color: #16191d;
 }
 
-.pagination-row td {
-    border: none;
-}
-
 .fuel-icon,
 .wet-icon,
 .noise-icon,
@@ -691,104 +687,6 @@
     background-color: #c52d2d;
 }
 
-/* Pagination Styles */
-.pagination-row td {
-    text-align: center;
-    padding: 20px;
-}
-
-.pagination-info {
-    margin-bottom: 15px;
-    color: #666;
-    font-size: 14px;
-}
-
-.pagination-showing {
-    font-weight: 500;
-}
-
-.pagination-controls {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: center;
-    align-items: center;
-    gap: 0.25rem;
-    flex-wrap: wrap;
-}
-
-.pagination-numbers {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.pagination-btn,
-.pagination-ellipsis {
-    width: 3rem;
-    height: 3rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-    font-size: 14px;
-    font-weight: 500;
-    padding: 0;
-    color: #16191d;
-    margin: 0;
-    border: 1px solid transparent;
-    background-color: transparent;
-    cursor: pointer;
-}
-
-.pagination-btn:hover:not(:disabled):not(.active) {
-    color: #c52d2d;
-}
-
-.pagination-btn.active {
-    background: #c52d2d;
-    color: #ffffff;
-    font-weight: bold;
-}
-
-.pagination-ellipsis {
-    cursor: default;
-    font-weight: normal;
-}
-
-.pagination-prev,
-.pagination-next {
-    font-size: 0rem;
-    width: 3rem;
-    height: 3rem;
-    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9.00005 6L15 12L9 18' stroke='%2316191D' stroke-width='1.5' stroke-miterlimit='16' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
-    background-size: 1.5rem;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-color: transparent;
-}
-
-.pagination-prev:hover:not(:disabled),
-.pagination-next:hover:not(:disabled) {
-    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9.00005 6L15 12L9 18' stroke='%23C52D2D' stroke-width='1.5' stroke-miterlimit='16' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
-}
-
-.pagination-prev:disabled,
-.pagination-next:disabled {
-    cursor: default;
-    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9.00005 6L15 12L9 18' stroke='%23A7B2BE' stroke-width='1.5' stroke-miterlimit='16' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
-    pointer-events: none;
-    opacity: 0.6;
-}
-
-.pagination-prev {
-    transform: scale(-1, 1);
-}
-
-.pagination-prev *,
-.pagination-next * {
-    display: none;
-}
-
 /* TYRE SIZE MODAL */
 body.modal-open {
     overflow: hidden;
@@ -902,14 +800,14 @@ body.modal-open {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
     color: #4c5967;
     flex-shrink: 0;
 }
 
 .legend-text {
-    font-size: 14px;
+    font-size: 16px;
     color: #16181d;
     font-weight: 500;
 }
@@ -932,27 +830,6 @@ body.modal-open {
 
     .legend-column {
         gap: 12px;
-    }
-
-    .pagination-controls {
-        gap: 10px;
-    }
-
-    .pagination-prev-text,
-    .pagination-next-text {
-        display: none;
-    }
-
-    .pagination-prev::after {
-        content: '‹';
-        font-size: 18px;
-        font-weight: bold;
-    }
-
-    .pagination-next::after {
-        content: '›';
-        font-size: 18px;
-        font-weight: bold;
     }
 
     /* Tabs */
@@ -1034,4 +911,165 @@ body.modal-open {
     color: #c52d2d;
     cursor: pointer;
     text-transform: uppercase;
+}
+#tyre-specification-search h3 {
+    font-size: 24px;
+    font-weight: 800;
+}
+#tyre-specification-search .tyre-results-table {
+    font-size: 14px;
+}
+
+/* Pagination Styles */
+.pagination-row td {
+    padding: 20px;
+    border: none;
+}
+
+.pagination-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+}
+
+.pagination-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+.items-per-page {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.items-per-page span {
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.pagination-showing {
+    font-weight: 500;
+    white-space: nowrap;
+}
+.pagination-controls {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.25rem;
+}
+.pagination-wrapper .ts-wrapper {
+    min-height: 18px;
+}
+.pagination-numbers {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+.ts-dropdown.tyres-search-per-page-dd .option {
+    padding: 3px;
+    color: #16191d;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 500;
+}
+.pagination-btn,
+.pagination-ellipsis {
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0;
+    color: #16191d;
+    margin: 0;
+    border: 1px solid transparent;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.pagination-btn:hover:not(:disabled):not(.active) {
+    color: #c52d2d;
+}
+
+.pagination-btn.active {
+    background: #c52d2d;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.pagination-ellipsis {
+    cursor: default;
+    font-weight: normal;
+}
+
+.pagination-prev,
+.pagination-next {
+    font-size: 0rem;
+    width: 3rem;
+    height: 3rem;
+    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9.00005 6L15 12L9 18' stroke='%2316191D' stroke-width='1.5' stroke-miterlimit='16' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+    background-size: 1.5rem;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: transparent;
+}
+
+.pagination-prev:hover:not(:disabled),
+.pagination-next:hover:not(:disabled) {
+    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9.00005 6L15 12L9 18' stroke='%23C52D2D' stroke-width='1.5' stroke-miterlimit='16' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+}
+
+.pagination-prev:disabled,
+.pagination-next:disabled {
+    cursor: default;
+    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9.00005 6L15 12L9 18' stroke='%23A7B2BE' stroke-width='1.5' stroke-miterlimit='16' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.pagination-prev {
+    transform: scale(-1, 1);
+}
+
+.pagination-prev *,
+.pagination-next * {
+    display: none;
+}
+
+@media (max-width: 992px) {
+    .pagination-wrapper {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .pagination-info {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .pagination-controls {
+        width: 100%;
+        justify-content: center;
+    }
+}
+.dropdown-up .ts-dropdown {
+    bottom: 100% !important;
+    top: auto !important;
+    margin-bottom: 5px;
+    margin-top: 0;
+}
+
+.dropdown-up .ts-dropdown {
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
 }

@@ -493,22 +493,34 @@
             <p><?php echo esc_html('Searching for tyres...'); ?></p>
         </div>
        <!-- </div> -->
-
         <!-- Pagination Template (hidden) -->
         <template id="pagination-template">
             <tr class="pagination-row">
                 <td colspan="12">
-                    <div class="pagination-info" style="display: none;">
-                        <span class="pagination-showing">Showing <span class="from">1</span>-<span class="to">10</span> of <span class="total">100</span> results</span>
-                    </div>
-                    <div class="pagination-controls">
-                        <button class="pagination-btn pagination-prev" data-action="prev">
-                        </button>
-                        <div class="pagination-numbers">
-                            <!-- Page numbers will be inserted here -->
+                    <div class="pagination-wrapper">
+                        <div class="pagination-info">
+                            <div class="items-per-page">
+                                <span>Items per page:</span>
+                                <select class="items-per-page-select">
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>
+                                </select>
+                            </div>
+                            <span class="pagination-showing">
+                                <span class="from">1</span>–<span class="to">10</span> of <span class="total">100</span>
+                            </span>
                         </div>
-                        <button class="pagination-btn pagination-next" data-action="next">
-                        </button>
+                        
+                        <div class="pagination-controls">
+                            <button class="pagination-btn pagination-prev" data-action="prev">
+                            </button>
+                            <div class="pagination-numbers">
+                                <!-- Page numbers will be inserted here -->
+                            </div>
+                            <button class="pagination-btn pagination-next" data-action="next">
+                            </button>
+                        </div>
                     </div>
                 </td>
             </tr>
