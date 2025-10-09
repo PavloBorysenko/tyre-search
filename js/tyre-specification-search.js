@@ -1,7 +1,9 @@
 jQuery(document).ready(function ($) {
-    let all_tyres = [];
+    /* 
+        All variables 
+    */
 
-    initTyreSizeModal();
+    let all_tyres = [];
 
     // Initialize TomSelect for all selects
     const selectIds = [
@@ -15,6 +17,11 @@ jQuery(document).ready(function ($) {
     const tomSelectInstances = {};
     let currentPagination = null;
 
+    /* 
+        Init all actions after page load 
+    */
+
+    // Initialize TomSelect for all selects
     selectIds.forEach((selectId) => {
         const selectElement = document.getElementById(selectId);
         if (selectElement) {
@@ -72,9 +79,7 @@ jQuery(document).ready(function ($) {
         }
     });
 
-    checkSelectState();
-    //checkTyreNameSelectState();
-
+    // Handle tab button click
     $('.tab-button').on('click', function () {
         const tabId = $(this).data('tab');
 
@@ -85,43 +90,33 @@ jQuery(document).ready(function ($) {
         $('#tab-' + tabId).addClass('active');
 
         $('#tyre-search-results').hide();
-
-        // Hide all select labels when switching tabs
-        if (tabId !== 'name') {
-            //resetAllSelects();
-        }
     });
 
+    // Handle search form submit
     $('#tyre-spec-search-form').on('submit', function (e) {
         e.preventDefault();
         displaySearchResults(all_tyres);
         scrollToResults();
     });
 
-    $('#reset-search').on('click', function () {
-        resetSearchForm();
-        CheckStateResetFilterButtons();
-    });
-
-    // why do you need second search request?
-    $('#search-tyres').on('click', function () {
-        //performTyreSearch();
-    });
-
+    // Handle search by EAN button click
     $('#search-by-ean').on('click', function () {
         const eanValue = $('#ean-search-input').val().trim();
         if (eanValue) {
             performEanSearch(eanValue);
         }
     });
-
-    $('#search-tyres-by-name').on('click', function () {
-        const selectedTyreId = $('#tyre-search-by-name-select').val();
-        if (selectedTyreId) {
-            performTyreNameSearch(selectedTyreId);
+    // Handle Enter key press in EAN search input
+    /* $('#ean-search-input').on('keypress', function (e) {
+        if (e.which === 13) {
+            // Enter key
+            e.preventDefault();
+            const eanValue = $(this).val().trim();
+            if (eanValue) {
+                performEanSearch(eanValue);
+            }
         }
-    });
-
+    });*/
     // EAN input clear functionality
     $('#ean-search-input').on('input', function () {
         const clearIcon = $('.clear-icon');
@@ -129,6 +124,14 @@ jQuery(document).ready(function ($) {
             clearIcon.show();
         } else {
             clearIcon.hide();
+        }
+    });
+
+    // Handle search by name button click
+    $('#search-tyres-by-name').on('click', function () {
+        const selectedTyreId = $('#tyre-search-by-name-select').val();
+        if (selectedTyreId) {
+            performTyreNameSearch(selectedTyreId);
         }
     });
 
@@ -141,33 +144,18 @@ jQuery(document).ready(function ($) {
         $('.ean-search-ean-no-results').hide();
     });
 
-    let lastVehicleType = null;
     // Init search on change for regular inputs
     $('#tyre-spec-search-form input').on('change', function () {
+        // Reset search form if vehicle type is changed
         if ($(this).attr('name') === 'vehicle_type') {
-            const currentValue = $(this).val();
-            if (lastVehicleType !== null && lastVehicleType !== currentValue) {
-                resetSearchForm();
-                $(this).prop('checked', true);
-            }
-            lastVehicleType = currentValue;
+            resetSearchForm();
+            $(this).prop('checked', true);
         }
 
         CheckStateResetFilterButtons();
         performTyreSearch();
     });
 
-    // Auto-select 'car' vehicle type on page load
-    const carRadio = $('input[name="vehicle_type"][value="car"]');
-    if (
-        carRadio.length > 0 &&
-        !$('input[name="vehicle_type"]:checked').length
-    ) {
-        lastVehicleType = 'car';
-        carRadio.prop('checked', true);
-        CheckStateResetFilterButtons();
-        performTyreSearch();
-    }
     // Handle TomSelect changes
     selectIds.forEach((selectId) => {
         if (tomSelectInstances[selectId]) {
@@ -178,6 +166,42 @@ jQuery(document).ready(function ($) {
             });
         }
     });
+
+    // Handle reset search button click
+    $('#reset-search').on('click', function () {
+        resetSearchForm();
+        doInitialSearch();
+    });
+
+    /* 
+        Init all function after page load 
+    */
+
+    initTyreSizeModal();
+
+    // Initialize checkSelectState after TomSelect instances are created
+    checkSelectState();
+
+    //checkTyreNameSelectState();
+
+    // Auto-select 'car' vehicle type on page load
+    doInitialSearch();
+
+    /*
+        All functions
+    */
+
+    function doInitialSearch() {
+        const carRadio = $('input[name="vehicle_type"][value="car"]');
+        if (
+            carRadio.length > 0 &&
+            !$('input[name="vehicle_type"]:checked').length
+        ) {
+            carRadio.prop('checked', true);
+            CheckStateResetFilterButtons();
+            performTyreSearch();
+        }
+    }
 
     function performTyreSearch() {
         var formData = {
@@ -208,16 +232,17 @@ jQuery(document).ready(function ($) {
                     all_tyres = response.data;
                     recountFiltersItems(all_tyres);
                 } else {
-                    alert(
+                    console.log(
                         'Error: ' + (response.data || 'Unknown error occurred')
                     );
                 }
                 $('#tyre-spec-search-form').removeClass(
                     'tyre-search-form-loading'
                 );
+                $('#search-tyres').show();
             },
             error: function (error) {
-                alert('An error occurred while searching for tyres.');
+                console.log('An error occurred while searching for tyres.');
                 $('#tyre-spec-search-form').removeClass(
                     'tyre-search-form-loading'
                 );
@@ -265,14 +290,14 @@ jQuery(document).ready(function ($) {
                     }
                     displaySearchResults(all_tyres);
                 } else {
-                    alert(
+                    console.log(
                         'Error: ' + (response.data || 'Unknown error occurred')
                     );
                 }
                 $('#search-by-ean').prop('disabled', false).text('Search');
             },
             error: function (error) {
-                alert('An error occurred while searching for tyres.');
+                console.log('An error occurred while searching for tyres.');
                 $('#search-by-ean').prop('disabled', false).text('Search');
             },
         });
@@ -295,7 +320,7 @@ jQuery(document).ready(function ($) {
                     all_tyres = response.data;
                     displaySearchResults(all_tyres);
                 } else {
-                    alert(
+                    console.log(
                         'Error: ' + (response.data || 'Unknown error occurred')
                     );
                 }
@@ -304,7 +329,7 @@ jQuery(document).ready(function ($) {
                     .text('Search');
             },
             error: function (error) {
-                alert('An error occurred while searching for tyres.');
+                console.log('An error occurred while searching for tyres.');
                 $('#search-tyres-by-name')
                     .prop('disabled', false)
                     .text('Search');
@@ -395,6 +420,13 @@ jQuery(document).ready(function ($) {
                     'input[type=checkbox]:checked, input[type=radio]:checked, select'
                 )
                 .filter(function () {
+                    if (
+                        $(this).is('input[type=radio]') &&
+                        $(this).attr('name') === 'vehicle_type' &&
+                        $(this).val() === 'car'
+                    ) {
+                        return false;
+                    }
                     return $(this).is('select') ? $(this).val() !== '' : true;
                 }).length > 0
         );
@@ -478,10 +510,10 @@ jQuery(document).ready(function ($) {
     function CheckStateResetFilterButtons() {
         if (isFormHasSelected()) {
             $('#reset-search').prop('disabled', false);
-            $('#search-tyres').show();
+            //$('#search-tyres').show();
         } else {
             $('#reset-search').prop('disabled', true);
-            $('#search-tyres').hide();
+            //$('#search-tyres').hide();
         }
     }
 
