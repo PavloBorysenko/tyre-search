@@ -75,7 +75,7 @@ function handle_tyre_specification_search() {
 
     $translate_helper = new TranslateHelper();
 
-    $no_results = $translate_helper->getTranslatepressTranslation('No matches found. Try a different search term.');
+    $no_results = $translate_helper->getTranslatepressTranslation('No tyres found matching your criteria.');
     $cache = new TyreCache();
     $cached_data = $cache->get($search);
     if ($cached_data !== false) {

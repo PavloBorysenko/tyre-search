@@ -41,9 +41,10 @@ class TyresSearch {
         return $results;
     }
     public function searchBySpecification($vehicle_type, $tyre_seasons, $tyre_width, $aspect_ratio, $rim_diameter, $load_speed_index) {
-    
         
         $args = $this->getArgs();
+
+        $args = $this->addTaxQueryExcludeMotorsport($args);
         
         $args = $this->addTaxQueryLocation($args);
 
@@ -224,6 +225,19 @@ class TyresSearch {
             }
         }
 
+        return $args;
+    }
+
+    private function addTaxQueryExcludeMotorsport($args) {
+        if (!isset($args['tax_query'])) {
+            $args['tax_query'] = array('relation' => 'AND');
+        }
+        $args['tax_query'][] = array(
+            'taxonomy' => 'tyre_type',
+            'field' => 'slug',
+            'terms' => 'motorsport',
+            'operator' => 'NOT IN'
+        );
         return $args;
     }
 

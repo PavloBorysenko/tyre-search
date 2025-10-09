@@ -48,9 +48,14 @@ class TyreShortcode {
     }
 
     private function getVehicleTypesTerms() {
+
+        $term = get_term_by('slug', 'motorsport', 'tyre_type');
+        $exclude_id = $term ? [$term->term_id] : [];
+
         $vehicle_types = get_terms([
             'taxonomy' => 'tyre_type',
             'hide_empty' => true,
+            'exclude'    => $exclude_id,
         ]);
         return $vehicle_types;
     }
@@ -83,7 +88,15 @@ class TyreShortcode {
             'order' => 'ASC',
             'orderby' => 'title',
             'update_post_meta_cache' => false,
-            'update_post_term_cache' => false
+            'update_post_term_cache' => false,
+            'tax_query'      => [
+                [
+                    'taxonomy' => 'tyre_type',
+                    'field'    => 'slug',
+                    'terms'    => ['motorsport'],
+                    'operator' => 'NOT IN'
+                ]
+            ]
         );
 
         $tyres = get_posts($args);

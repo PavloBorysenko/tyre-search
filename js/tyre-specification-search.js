@@ -73,7 +73,7 @@ jQuery(document).ready(function ($) {
     });
 
     checkSelectState();
-    checkTyreNameSelectState();
+    //checkTyreNameSelectState();
 
     $('.tab-button').on('click', function () {
         const tabId = $(this).data('tab');
@@ -327,8 +327,14 @@ jQuery(document).ready(function ($) {
             currentPagination = new TyrePagination(data.tyres, tbody, 10);
             currentPagination.init();
         } else {
+            let noResults = 'No tyres found matching your criteria.';
+            if (data.no_results) {
+                noResults = data.no_results;
+            }
             tbody.append(
-                '<tr><td colspan="12" style="text-align: center; padding: 20px;">No tyres found matching your criteria.</td></tr>'
+                '<tr><td colspan="12" style="text-align: center; padding: 20px;">' +
+                    noResults +
+                    '</td></tr>'
             );
         }
 
@@ -339,20 +345,22 @@ jQuery(document).ready(function ($) {
     function resetSearchForm() {
         $('#tyre-spec-search-form')[0].reset();
         $('#tyre-search-results').hide();
-        checkSelectState();
+
         all_tyres = [];
 
         // Show all filters after reset
         $('.vehicle-type-option').show();
         $('.season-option').show();
-        $('#tyre_width option').show();
-        $('#aspect_ratio option').show();
-        $('#rim_diameter option').show();
-        $('#load_speed_index option').show();
+        //$('#tyre_width option').show();
+        //$('#aspect_ratio option').show();
+        //$('#rim_diameter option').show();
+        //$('#load_speed_index option').show();
 
         // Reset all selects and hide their labels
         resetAllSelects();
+        checkSelectState();
     }
+
     function resetAllSelects() {
         selectIds.forEach((selectId) => {
             const selectElement = document.getElementById(selectId);
@@ -376,25 +384,10 @@ jQuery(document).ready(function ($) {
 
                 tomSelectInstance.refreshOptions(false);
                 tomSelectInstance.clear(true);
-
-                let label;
-                if (selectId === 'tyre-search-by-name-select') {
-                    label = document.querySelector(
-                        '#tyre-search-by-name-container label'
-                    );
-                } else {
-                    label = document
-                        .querySelector(`#${selectId}`)
-                        .closest('.spec-dropdown-container')
-                        .querySelector('label');
-                }
-
-                if (label) {
-                    label.style.display = 'none';
-                }
             }
         });
     }
+
     function isFormHasSelected() {
         return (
             $('#tyre-spec-search-form')
@@ -406,6 +399,7 @@ jQuery(document).ready(function ($) {
                 }).length > 0
         );
     }
+
     function checkSelectState(select_element = null) {
         let selectIds = [
             'tyre_width',
@@ -441,7 +435,6 @@ jQuery(document).ready(function ($) {
                 if (value === '') {
                     disabled = true;
                 }
-
                 // Show/hide label
                 const label = document
                     .querySelector(`#${selectId}`)
@@ -458,6 +451,7 @@ jQuery(document).ready(function ($) {
         });
     }
 
+    //TODO delete this function after test
     function checkTyreNameSelectState() {
         const tyreNameSelect = $('#tyre-search-by-name-select');
         const label = tyreNameSelect
@@ -480,6 +474,7 @@ jQuery(document).ready(function ($) {
 
         $('html, body').animate({ scrollTop: top }, 300);
     }
+
     function CheckStateResetFilterButtons() {
         if (isFormHasSelected()) {
             $('#reset-search').prop('disabled', false);
@@ -489,6 +484,7 @@ jQuery(document).ready(function ($) {
             $('#search-tyres').hide();
         }
     }
+
     function recountFiltersItems(data) {
         if ($('.vehicle-type-option input:checked').length === 0) {
             let checkboxes = $('.vehicle-type-option input');

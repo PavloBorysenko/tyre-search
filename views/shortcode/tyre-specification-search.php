@@ -42,9 +42,6 @@
                 <h3><?php echo esc_html('Choose vehicle type'); ?></h3>
                 <div class="vehicle-type-options">
                     <?php foreach ($vehicle_types as $vehicle_type) { ?>
-                        <?php if ($vehicle_type->slug == 'motorsport') {
-                            continue;
-                        } ?>
                         <label class="vehicle-type-option" data-vehicle_type="<?php echo esc_attr($vehicle_type->slug); ?>">
                             <input  
                             type="radio" 
