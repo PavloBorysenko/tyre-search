@@ -950,12 +950,13 @@ body.modal-open {
 }
 
 .items-per-page span {
-    font-weight: 500;
+    font-weight: 600;
     white-space: nowrap;
 }
 
 .pagination-showing {
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 14px;
     white-space: nowrap;
 }
 .pagination-controls {
@@ -1069,7 +1070,26 @@ body.modal-open {
     margin-bottom: 5px;
     margin-top: 0;
 }
-
+.items-per-page .items-per-page-select .ts-control {
+    font-size: 14px;
+    color: #6d6d6d;
+}
 .dropdown-up .ts-dropdown {
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Font size for small screens */
+@media (max-width: 768px) {
+    .h1 {
+        font-size: 36px;
+    }
+    .ean-search-description {
+        font-size: 16px;
+    }
+    .tyre-name-search-description {
+        font-size: 16px;
+    }
+    #tyre-spec-search-form h3 {
+        font-size: 20px;
+    }
 }
