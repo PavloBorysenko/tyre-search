@@ -29,6 +29,12 @@ class TranslateHelper {
         //    ],
         //]
         $overrideTranslationDefault = [];
+        $overrideTranslationDefault = [
+            'es_ES' => [
+                'Select Tyre Width' => 'Seleccione el anclaje del neumático
+',
+            ],
+        ];
         /*$overrideTranslationDefault = [
             'es_ES' => [
                 'Select Tyre Width' => 'Seleccionar ancho',
