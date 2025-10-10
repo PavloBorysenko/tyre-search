@@ -182,6 +182,10 @@
 .reset-btn {
     background: transparent;
     text-decoration: none;
+    color: #16181d;
+}
+.reset-btn[disabled] {
+    color: #a7b2be;
 }
 
 .search-btn {
