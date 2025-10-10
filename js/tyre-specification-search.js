@@ -78,6 +78,24 @@ jQuery(document).ready(function ($) {
                     }
                 }
             });
+
+            // Reset scroll to top on both open and close events
+            tomSelectInstance.on('dropdown_open', function () {
+                const dropdown = this.dropdown_content;
+                if (dropdown) {
+                    dropdown.scrollTop = 0;
+                    setTimeout(() => {
+                        dropdown.scrollTop = 0;
+                    }, 10);
+                }
+            });
+
+            tomSelectInstance.on('dropdown_close', function () {
+                const dropdown = this.dropdown_content;
+                if (dropdown) {
+                    dropdown.scrollTop = 0;
+                }
+            });
         }
     });
 
