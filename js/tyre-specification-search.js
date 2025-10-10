@@ -4,6 +4,8 @@ jQuery(document).ready(function ($) {
     */
 
     let all_tyres = [];
+    let all_tyres_ean = [];
+    let all_tyres_name = [];
 
     // Initialize TomSelect for all selects
     const selectIds = [
@@ -264,7 +266,7 @@ jQuery(document).ready(function ($) {
             data: formData,
             success: function (response) {
                 if (response.success) {
-                    all_tyres = response.data;
+                    all_tyres_ean = response.data;
                     // Open PDF in new tab if function exists
                     if (
                         typeof pdf_tire_generator_open_in_new_tab === 'function'
@@ -274,21 +276,21 @@ jQuery(document).ready(function ($) {
                         );
                         noResults.style.display = 'none';
                         if (
-                            all_tyres.tyres &&
-                            all_tyres.tyres.length > 0 &&
-                            all_tyres.tyres[0].hasOwnProperty('pdf_url')
+                            all_tyres_ean.tyres &&
+                            all_tyres_ean.tyres.length > 0 &&
+                            all_tyres_ean.tyres[0].hasOwnProperty('pdf_url')
                         ) {
                             pdf_tire_generator_open_in_new_tab(
-                                all_tyres.tyres[0]['pdf_url']
+                                all_tyres_ean.tyres[0]['pdf_url']
                             );
                         }
-                        if (all_tyres.no_results) {
+                        if (all_tyres_ean.no_results) {
                             noResults.style.display = 'block';
-                            noResults.textContent = all_tyres.no_results;
+                            noResults.textContent = all_tyres_ean.no_results;
                         }
                         return;
                     }
-                    displaySearchResults(all_tyres);
+                    displaySearchResults(all_tyres_ean);
                 } else {
                     console.log(
                         'Error: ' + (response.data || 'Unknown error occurred')
@@ -317,8 +319,8 @@ jQuery(document).ready(function ($) {
             data: formData,
             success: function (response) {
                 if (response.success) {
-                    all_tyres = response.data;
-                    displaySearchResults(all_tyres);
+                    all_tyres_name = response.data;
+                    displaySearchResults(all_tyres_name);
                 } else {
                     console.log(
                         'Error: ' + (response.data || 'Unknown error occurred')
