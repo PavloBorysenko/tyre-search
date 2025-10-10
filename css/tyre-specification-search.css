@@ -975,11 +975,11 @@ body.modal-open {
     gap: 0.25rem;
 }
 .ts-dropdown.tyres-search-per-page-dd .option {
-    padding: 3px;
+    padding: 7px 5px;
     color: #16191d;
     font-size: 14px;
     line-height: 24px;
-    font-weight: 500;
+    font-weight: 600;
 }
 .pagination-btn,
 .pagination-ellipsis {
@@ -1072,6 +1072,7 @@ body.modal-open {
 }
 .items-per-page .items-per-page-select .ts-control {
     font-size: 14px;
+
     color: #6d6d6d;
 }
 .dropdown-up .ts-dropdown {
@@ -1092,4 +1093,20 @@ body.modal-open {
     #tyre-spec-search-form h3 {
         font-size: 20px;
     }
+}
+.breakdance .tyres-search-per-page-dd .ts-dropdown-content .selected {
+    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 13.4998L8.5 17.9998L19.5 5.99982' stroke='%23C52D2D' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+    background-position: calc(100% - 0.5rem) 50%;
+    background-size: 1rem;
+    background-repeat: no-repeat;
+}
+.ts-dropdown.tyres-search-per-page-dd .active {
+    background-color: #f7f7f7;
+}
+.breakdance .tyres-search-per-page-dd .ts-dropdown-content {
+    font-weight: 600;
+}
+.items-per-page-select.ts-wrapper.single .ts-control {
+    --ts-pr-caret: 2.8rem;
+    padding: 7px;
 }
