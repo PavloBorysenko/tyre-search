@@ -1087,7 +1087,7 @@ body.modal-open {
 
 /* Font size for small screens */
 @media (max-width: 768px) {
-    .h1 {
+    body .breakdance h1.bde-heading {
         font-size: 36px;
     }
     .ean-search-description {
